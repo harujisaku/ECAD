@@ -78,7 +78,7 @@ void mousePressed(){
 		}
 	}else if(mouseButton==RIGHT){
 		for(int i=0;i<parts.getSize();i++){
-			if(parts.isClick(f)==true){
+			if(parts.isClick(i)==true){
 				setDeg=-1;
 				selectId=i;
 				break;
