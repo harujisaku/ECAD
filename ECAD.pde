@@ -11,15 +11,14 @@ String path="",partPath,partGloup;
 String[] fileNames;
 static int selectId=-1,ofsetX,ofsetY,setDeg;
 static boolean removeFlg,copyFlg,pasteFlg;
-ArrayList<Part> part = new ArrayList<Part>();
-// ArrayList<ImageList> iL = new ArrayList<ImageList>();
 IntList selectIds = new IntList();
 IntList partPosXs = new IntList();
 IntList partPosYs = new IntList();
 IntList partDegs = new IntList();
 ArrayList<String> partPaths = new ArrayList<String>();
 ArrayList<String> partgroup = new ArrayList<String>();
-PartList parts;
+PartList pL;
+Parts parts = new Parts();
 Menu menu;
 
 //
@@ -30,10 +29,8 @@ void setup(){
 	startPhoto=loadImage("start.png");
 	image(startPhoto,0,0);
 	path = "C:/Users/haruj/Documents/ECAD/parts/";
-	parts=new PartList(63,63,80,80,0,0,250,400,path);
-	// fileNames = listFileNames(path);
-	parts.sortAll();
-	// java.util.Arrays.sort(fileNames);
+	pL=new PartList(63,63,80,80,0,0,250,400,path);
+	pL.sortAll();
 	setupComponent();
 	thread("loadParts");
 	// thread("loadPartsSub");
@@ -43,57 +40,49 @@ void draw(){
 	if(count==2){
 		count++;
 		menu = new Menu(this);
-		//println(millis());
+		println(millis());
 	}else if(count>=3){
 		background(187,201,158);
-		parts.scrool(ofsetX,ofsetY);
-		parts.update(f);
+		pL.scrool(ofsetX,ofsetY);
+		pL.update(f);
 		kopipe();
 		rightClick();
 		moveHighlight();
-		for(int k=part.size()-1;k>=0;k--){
-			//println(k);
-			part.get(k).redraw_parts();
-		}
-		//println(part.size());
+		parts.redraw();
 	}
 }
 
 
 void mousePressed(){
 	if(mouseButton == LEFT){
-		if(parts.getButton(f)==-1){
-			for(int i=0;i<part.size();i++){
-				if(part.get(i).poscheck()==true){
+		if(pL.getButton(f)==-1){
+			for(int i=0;i<parts.getSize();i++){
+				if(parts.isClick(i)){
 					partId=i;
 					setDeg=-1;
-					mouseOfX=part.get(i).pos_x-mX();
-					mouseOfY=part.get(i).pos_y-mY();
+					mouseOfX=parts.getPosX(i)-mX();
+					mouseOfY=parts.getPosY(i)-mY();
 					break;
 				}else{
 					partId=-1;
 					setDeg=-1;
 					selectId=-1;
-					//println("variables123456789");
-					// selectIds.clear();
 				}
 			}
 			if(partId==-1){
 				selectIds.clear();
 			}
 		}else{
-			part.add(new Part());
-			part.get(part.size()-1).new_parts(0,"dd",parts.getPath(f),mX(),mY());
-			partId=part.size()-1;
+			parts.newPart(0,"dd",pL.getPath(f),mX(),mY());
+			partId=parts.getSize()-1;
 		}
 	}else if(mouseButton==RIGHT){
-		for(int i=0;i<part.size();i++){
-			if(part.get(i).poscheck()==true){
+		for(int i=0;i<parts.getSize();i++){
+			if(parts.isClick(f)==true){
 				setDeg=-1;
 				selectId=i;
 				break;
 			}else{
-				// partId=-1;
 				setDeg=-1;
 				selectId=-1;
 				selectIds.clear();
@@ -104,26 +93,18 @@ void mousePressed(){
 
 void mouseReleased(){
 	if(partId!=-1){
-		//println("variables2");
-		//println(part.get(partId).isNoMove);
-		part.get(partId).moveCheck(mX()+mouseOfX,mY()+mouseOfY);
-		if(part.get(partId).isNoMove==true){
+		if(parts.isMove(partId,mX()+mouseOfX,mY()+mouseOfY)){
 			selectId=partId;
-			//println(selectIds,keyCode,keyPressed);
 			if(selectIds.hasValue(partId)==false&&keyCode==CONTROL&&keyPressed){
 				selectIds.append(partId);
-				//println(selectIds);
 			}else{
 				selectIds.clear();
 				selectIds.append(partId);
-				//println("variablesaaaaaaaaaaaa");
 			}
-			//println(selectId);
 		}else{
-		part.get(partId).move_parts(mX()+mouseOfX,mY()+mouseOfY);
+		parts.move(partId,mX()+mouseOfX,mY()+mouseOfY);
 		selectId=-1;
 		selectIds.clear();
-		// //println("variables4");
 	}
 	}
 	partId=-1;
@@ -184,7 +165,7 @@ void keyPressed(){
 			break;
 		case '':
 			if(selectId!=-1){
-				part.remove(selectId);
+				parts.remove(selectId);
 			}
 			selectId=-1;
 			selectIds.clear();
@@ -215,7 +196,7 @@ void setupComponent(){
 }
 
 void loadParts(){
-	parts.makeList();
+	pL.makeList();
 	count+=2;
 }
 //
@@ -231,54 +212,52 @@ void loadParts(){
 void kopipe(){
 	if(removeFlg){
 		if(selectId!=-1){
-			part.remove(selectId);
+			parts.remove(selectId);
 			selectId=-1;
 			selectIds.clear();
 		}
 		removeFlg=false;
 	}else if(copyFlg){
 		if(selectId!=-1){
-			part.get(selectId).copyVariable();
-			partPosX=part.get(selectId).copyPosX;
-			partPosY=part.get(selectId).copyPosY;
-			partDeg=part.get(selectId).copyDeg;
-			partPath=part.get(selectId).copyPath;
-			partGloup=part.get(selectId).copyGloup;
+			parts.copyVariable(selectId);
+			partPosX=parts.partPosX;
+			partPosY=parts.partPosY;
+			partDeg=parts.partDeg;
+			partPath=parts.partPath;
+			partGloup=parts.partGloup;
 		}
 		copyFlg=false;
 	}else if(pasteFlg){
-			part.add(new Part());
-			part.get(part.size()-1).new_parts(partDeg,partGloup,partPath,mX(),mY());
-			// partId=part.size()-1;
+			parts.newPart(partDeg,partGloup,partPath,mX(),mY());
 		pasteFlg=false;
 	}
 }
 
 void rightClick(){
-	for(int i=0;i<part.size();i++){
+	for(int i=0;i<parts.getSize();i++){
 		if(selectId==i){
 			if(setDeg!=-1){
-				part.get(i).turn(setDeg);
+				parts.turn(i,setDeg);
 				setDeg=-1;
 				selectId=-1;
 				selectIds.clear();
 			}
 		}
-		part.get(i).redraw_parts();
+		parts.redraw(i);
 	}
 }
 
 void moveHighlight(){
 	if(partId!=-1){
 		fill(255,255,255,0);
-		if(part.get(partId).deg==0){
-			rect(mX()-part.get(partId).ofset_x+mouseOfX,mY()+mouseOfY-part.get(partId).ofset_y,part.get(partId).size_x,part.get(partId).size_y);
-		}else if(part.get(partId).deg==1){
-			rect(mX()+part.get(partId).ofset_y+mouseOfX-part.get(partId).size_y,mY()-part.get(partId).ofset_x+mouseOfY,part.get(partId).size_y,part.get(partId).size_x);
-		}else if(part.get(partId).deg==2){
-			rect(mX()-part.get(partId).size_x+part.get(partId).ofset_x+mouseOfX,mY()-part.get(partId).size_y+part.get(partId).ofset_y+mouseOfY,part.get(partId).size_x,part.get(partId).size_y);
-		}else if(part.get(partId).deg==3){
-			rect(mX()-part.get(partId).ofset_y+mouseOfX,mY()-part.get(partId).size_x+part.get(partId).ofset_x+mouseOfY,part.get(partId).size_y,part.get(partId).size_x);
+		if(parts.getDeg(partId)==0){
+			rect(mX()-parts.getOfsetX(partId)+mouseOfX,mY()+mouseOfY-parts.getOfsetY(partId),parts.getSizeX(partId),parts.getSizeY(partId));
+		}else if(parts.getDeg(partId)==1){
+			rect(mX()+parts.getOfsetY(partId)+mouseOfX-parts.getSizeY(partId),mY()-parts.getOfsetX(partId)+mouseOfY,parts.getSizeY(partId),parts.getSizeX(partId));
+		}else if(parts.getDeg(partId)==2){
+			rect(mX()-parts.getSizeX(partId)+parts.getOfsetX(partId)+mouseOfX,mY()-parts.getSizeY(partId)+parts.getOfsetY(partId)+mouseOfY,parts.getSizeX(partId),parts.getSizeY(partId));
+		}else if(parts.getDeg(partId)==3){
+			rect(mX()-parts.getOfsetY(partId)+mouseOfX,mY()-parts.getSizeX(partId)+parts.getOfsetX(partId)+mouseOfY,parts.getSizeY(partId),parts.getSizeX(partId));
 		}
 		fill(255,255,255);
 	}

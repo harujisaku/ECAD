@@ -1,12 +1,12 @@
 class Parts{
 	ArrayList<Part> part = new ArrayList<Part>();
-	int partPosX,partPosY,copyDeg;
-	String copyPath,copyGloup;
+	int partPosX,partPosY,partDeg;
+	String partPath,partGloup;
 	Parts(){
 	}
 
-	void newPart(String gloup,String path,int posX,int posY){
-		part.add(new Part(0,gloup,path,posX,posY));
+	void newPart(int deg,String gloup,String path,int posX,int posY){
+		part.add(new Part(deg,gloup,path,posX,posY));
 	}
 
 	int getPosX(int index){
@@ -20,7 +20,7 @@ class Parts{
 		return part.size();
 	}
 
-	void trun(int index,int deg){
+	void turn(int index,int deg){
 		part.get(index).turn(deg);
 	}
 
@@ -36,10 +36,33 @@ class Parts{
 		part.get(index).move_parts(posX,posY);
 	}
 
+	int getDeg(int index){
+		return part.get(index).deg;
+	}
+
+	int getSizeX(int index){
+		return part.get(index).size_x;
+	}
+
+	int getSizeY(int index){
+		return part.get(index).size_y;
+	}
+
+	int getOfsetX(int index){
+		return part.get(index).ofset_x;
+	}
+
+	int getOfsetY(int index){
+		return part.get(index).ofset_y;
+	}
+
 	void redraw(){
 		for(int k=part.size()-1;k>=0;k--){
 			part.get(k).redraw_parts();
 		}
+	}
+	void redraw(int index){
+		part.get(index).redraw_parts();
 	}
 
 	void copyVariable(int index){
@@ -49,5 +72,9 @@ class Parts{
 		partDeg=part.get(index).copyDeg;
 		partPath=part.get(index).copyPath;
 		partGloup=part.get(index).copyGloup;
+	}
+
+	void remove(int index){
+		part.remove(index);
 	}
 }
