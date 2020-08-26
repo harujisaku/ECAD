@@ -12,14 +12,14 @@ String[] fileNames;
 static int selectId=-1,ofsetX,ofsetY,setDeg;
 static boolean removeFlg,copyFlg,pasteFlg;
 ArrayList<Part> part = new ArrayList<Part>();
-ArrayList<ImageList> iL = new ArrayList<ImageList>();
+// ArrayList<ImageList> iL = new ArrayList<ImageList>();
 IntList selectIds = new IntList();
 IntList partPosXs = new IntList();
 IntList partPosYs = new IntList();
 IntList partDegs = new IntList();
 ArrayList<String> partPaths = new ArrayList<String>();
 ArrayList<String> partgroup = new ArrayList<String>();
-
+PartList parts;
 Menu menu;
 
 //
@@ -30,8 +30,10 @@ void setup(){
 	startPhoto=loadImage("start.png");
 	image(startPhoto,0,0);
 	path = "C:/Users/haruj/Documents/ECAD/parts/";
-	fileNames = listFileNames(path);
-	java.util.Arrays.sort(fileNames);
+	parts=new PartList(63,63,80,80,0,0,250,400,path);
+	// fileNames = listFileNames(path);
+	parts.sortAll();
+	// java.util.Arrays.sort(fileNames);
 	setupComponent();
 	thread("loadParts");
 	// thread("loadPartsSub");
@@ -44,8 +46,8 @@ void draw(){
 		//println(millis());
 	}else if(count>=3){
 		background(187,201,158);
-		iL.get(f).scrool(ofsetX,ofsetY);
-		iL.get(f).redraw();
+		parts.scrool(ofsetX,ofsetY);
+		parts.update(f);
 		kopipe();
 		rightClick();
 		moveHighlight();
@@ -60,7 +62,7 @@ void draw(){
 
 void mousePressed(){
 	if(mouseButton == LEFT){
-		if(iL.get(f).push_b()==-1){
+		if(parts.getButton(f)==-1){
 			for(int i=0;i<part.size();i++){
 				if(part.get(i).poscheck()==true){
 					partId=i;
@@ -81,7 +83,7 @@ void mousePressed(){
 			}
 		}else{
 			part.add(new Part());
-			part.get(part.size()-1).new_parts(0,"dd",iL.get(f).push_n(iL.get(f).push_b()),mX(),mY());
+			part.get(part.size()-1).new_parts(0,"dd",parts.getPath(f),mX(),mY());
 			partId=part.size()-1;
 		}
 	}else if(mouseButton==RIGHT){
@@ -212,11 +214,7 @@ void setupComponent(){
 }
 
 void loadParts(){
-	for(int h=0;h<fileNames.length;h++){
-		String fileName=path+fileNames[h];
-		iL.add(new ImageList());
-		iL.get(h).remake(63,63,80,80,0,0,250,400,fileName);
-	}
+	parts.makeList();
 	count+=2;
 }
 //

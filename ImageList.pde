@@ -6,7 +6,9 @@ File[] files;
 String[] filesbmp;
 String[] filesname;
 ArrayList<PImage>images=new ArrayList<PImage>();
-	ImageList(){}
+	ImageList(int img_w,int img_h,int box_w,int box_h,int p_x,int p_y,int s_x,int s_y,String directory){
+		remake(img_w,img_h,box_w,box_h,p_x,p_y,s_x,s_y,directory);
+	}
 
 void redraw(){
 		rect(pos_x,pos_y,size_x,size_y);
@@ -82,7 +84,7 @@ void remake(int img_w,int img_h,int box_w,int box_h,int p_x,int p_y,int s_x,int 
 		file_num=a;
 	}
 
-	int push_b(){
+	int pushButton(){
 		int l=-1;
 		int g=0;
 		for(int i=0;i<kazu/l_w;i++){
@@ -102,7 +104,7 @@ void remake(int img_w,int img_h,int box_w,int box_h,int p_x,int p_y,int s_x,int 
 		return l;
 	}
 
-	String push_n(int a){
+	String pushPath(int a){
 		return filesbmp[a];
 	}
 }
