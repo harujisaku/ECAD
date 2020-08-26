@@ -4,9 +4,10 @@ class Part{
 	String copyPath,copyGloup;
 	boolean isNoMove=false;
 	PImage photo;
-	Part(){
+	Part(int _deg,String gloup,String path,int ps_x,int ps_y){
+		new_parts(_deg,gloup,path,ps_x,ps_y);
 	}
-
+	Part(){}
 	void new_parts(int _deg,String gloup,String path,int ps_x,int ps_y) {
 	photo = loadImage(path);
 	pos_x=ps_x;
@@ -33,12 +34,13 @@ class Part{
 	pos_y=ps_y;
 		// redraw_parts();
 	}
-	void moveCheck(int psX,int psY){
+	boolean moveCheck(int psX,int psY){
 	if(pos_x==psX&&pos_y==psY){
 		isNoMove=true;
 	}else{
 		isNoMove=false;
 	}
+	return isNoMove;
 	}
 	void redraw_parts() {
 		pushMatrix();
@@ -102,6 +104,35 @@ class Part{
 		}
 	}
 
+	boolean posCheck(){
+		if (deg==0){
+			if((mouseX>=pos_x-ofset_x)&&(mouseY>=pos_y-ofset_y)&&(mouseX<=pos_x+size_x-ofset_x)&&(mouseY<=pos_y+size_y-ofset_y)){
+					return true;
+			}else{
+					return false;
+			}
+		}else if(deg==1){
+			if((mouseX>=pos_x-size_y+ofset_y)&&(mouseY>=pos_y-ofset_x)&&(mouseX<=pos_x+ofset_y)&&(mouseY<=pos_y+size_x-ofset_x)) {
+				return true;
+			}else{
+				return false;
+			}
+		}else if(deg==2){
+			if((mouseX>=pos_x-size_x-ofset_x)&&(mouseY>=pos_y-size_y+ofset_y)&&(mouseX<=pos_x+ofset_x)&&(mouseY<=pos_y+ofset_y)){
+				return true;
+			}else{
+				return false;
+			}
+		}else if(deg==3){
+			if((mouseX>=pos_x-ofset_y)&&(mouseY>=pos_y-size_x+ofset_x)&&(mouseX<=pos_x-ofset_x+size_y)&&(mouseY<=pos_y-ofset_y+size_x)){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
 
 	int serch_point_x(int w,int h) {
 	int f=0;

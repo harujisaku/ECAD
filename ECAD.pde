@@ -127,6 +127,7 @@ void mouseReleased(){
 	}
 	}
 	partId=-1;
+	mouseOfX=0;mouseOfY=0;
 }
 
 String[] listFileNames(String dir){
