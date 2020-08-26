@@ -66,7 +66,8 @@ void remake(int img_w,int img_h,int box_w,int box_h,int p_x,int p_y,int s_x,int 
 	filesbmp = new String[files.length];
 	filesname = new String[files.length];
 	for(int i= 0; i< files.length; i++){
-		if(files[i].getPath().endsWith(extensions)){
+		if(files[i].getPath().endsWith("_"+extensions)){
+		}else if(files[i].getPath().endsWith(extensions)){
 			filesbmp[a] = files[i].getAbsolutePath();
 			filesname[a] = files[i].getName();
 			PImage img = loadImage(filesbmp[a]);
