@@ -4,13 +4,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.Component;
-
+import javax.swing.*;
 PImage startPhoto;
 int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg;
 String path="",partPath,partGloup;
-String[] fileNames;
+String[] fileNames,fileData;
 static int selectId=-1,ofsetX,ofsetY,setDeg;
-static boolean removeFlg,copyFlg,pasteFlg;
+static boolean removeFlg,copyFlg,pasteFlg,saveFlg,loadFlg,changeFlg;
 IntList selectIds = new IntList();
 IntList partPosXs = new IntList();
 IntList partPosYs = new IntList();
@@ -49,6 +49,7 @@ void draw(){
 		rightClick();
 		moveHighlight();
 		parts.redraw();
+		file();
 	}
 }
 
@@ -260,6 +261,14 @@ void moveHighlight(){
 			rect(mX()-parts.getOfsetY(partId)+mouseOfX,mY()-parts.getSizeX(partId)+parts.getOfsetX(partId)+mouseOfY,parts.getSizeY(partId),parts.getSizeX(partId));
 		}
 		fill(255,255,255);
+	}
+}
+
+void file(){
+	if (saveFlg) {
+		
+	}else else if (loadFlg) {
+		
 	}
 }
 
