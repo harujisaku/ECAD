@@ -1,6 +1,6 @@
 class PartList {
 	int partSizeX,partSizeY,boxSizeX,boxSizeY,listPosX,listPosY,listSizeX,listSizeY,scroolX,scroolY;
-	String directory;
+	String directory,board;
 	String[] fileNames;
 	ArrayList<ImageList> iL = new ArrayList<ImageList>();
 	PartList(int _partSizeX,int _partSizeY,int _boxSizeX,int _boxSizeY,int _listPosX,int _listPosY,int _listSizeX,int _listSizeY,String _directory){
@@ -27,11 +27,9 @@ class PartList {
 	void makeList(){
 		for(int i=0;i<fileNames.length;i++){
 			String name=fileNames[i];
-			if (name.equals("Board")==false) {
 				println("fileNames[i]: "+fileNames[i]);
 				String fileName=path+fileNames[i];
 				iL.add(new ImageList(partSizeX,partSizeY,boxSizeX,boxSizeY,listPosX,listPosY,listSizeX,listSizeY,fileName));
-			}
 		}
 	}
 

@@ -30,6 +30,11 @@ void setup(){
 	image(startPhoto,0,0);
 	path = "C:/Users/haruj/Documents/ECAD/parts/";
 	pL=new PartList(63,63,80,80,0,0,250,400,path);
+	try {
+		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
 	pL.sortAll();
 	setupComponent();
 	thread("loadParts");
@@ -267,7 +272,7 @@ void moveHighlight(){
 void file(){
 	if (saveFlg) {
 		
-	}else else if (loadFlg) {
+	}else if (loadFlg) {
 		
 	}
 }
