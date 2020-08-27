@@ -4,13 +4,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.Component;
-
+import javax.swing.*;
 PImage startPhoto;
 int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg;
 String path="",partPath,partGloup;
-String[] fileNames;
+String[] fileNames,fileData;
 static int selectId=-1,ofsetX,ofsetY,setDeg;
-static boolean removeFlg,copyFlg,pasteFlg;
+static boolean removeFlg,copyFlg,pasteFlg,saveFlg,loadFlg,changeFlg;
 IntList selectIds = new IntList();
 IntList partPosXs = new IntList();
 IntList partPosYs = new IntList();
@@ -20,7 +20,9 @@ ArrayList<String> partgroup = new ArrayList<String>();
 PartList pL;
 Parts parts = new Parts();
 Menu menu;
-
+PImage boardImg = createImage(350,400,RGB);
+PImage uraboardImg;
+RemoveFileExtension ex= new RemoveFileExtension();
 //
 //
 //
@@ -28,8 +30,18 @@ void setup(){
 	size(600,400);
 	startPhoto=loadImage("start.png");
 	image(startPhoto,0,0);
-	path = "C:/Users/haruj/Documents/ECAD/parts/";
+	boardImg.loadPixels();
+	for (int i = 0; i < boardImg.pixels.length; i++) {
+		boardImg.pixels[i] = color(187,201,158);
+	}
+	boardImg.updatePixels();
+	path = "C:\\Users\\haruj\\Documents\\ECAD\\parts\\";
 	pL=new PartList(63,63,80,80,0,0,250,400,path);
+	try {
+		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
 	pL.sortAll();
 	setupComponent();
 	thread("loadParts");
@@ -47,8 +59,10 @@ void draw(){
 		pL.update(f);
 		kopipe();
 		rightClick();
+		image(boardImg,250,0);
 		moveHighlight();
 		parts.redraw();
+		file();
 	}
 }
 
@@ -73,8 +87,20 @@ void mousePressed(){
 				selectIds.clear();
 			}
 		}else{
-			parts.newPart(0,"dd",pL.getPath(f),mX(),mY());
-			partId=parts.getSize()-1;
+			File board=new File(pL.getPath(f));
+			String boardPath= board.getParent();
+			String boardName=board.getName();
+			println(boardPath,path+"Board");
+			if(boardPath.equals(path+"Board")){
+				println("board!!");
+				boardImg = loadImage(pL.getPath(f));
+				uraboardImg =  loadImage(boardPath+"\\"+ex.removeFileExtension(boardName)+"_.bmp");
+				// println(boardName);
+				// println(boardPath+"\\"+ex.removeFileExtension(boardName)+"_.bmp");
+			}else{
+				parts.newPart(0,"dd",pL.getPath(f),mX(),mY());
+				partId=parts.getSize()-1;
+			}
 		}
 	}else if(mouseButton==RIGHT){
 		for(int i=0;i<parts.getSize();i++){
@@ -102,9 +128,16 @@ void mouseReleased(){
 				selectIds.append(partId);
 			}
 		}else{
-		parts.move(partId,mX()+mouseOfX,mY()+mouseOfY);
-		selectId=-1;
-		selectIds.clear();
+			if(mX()<250){
+				parts.remove(partId);
+				partId=-1;
+				selectId=-1;
+				selectIds.clear();
+			}else{
+				parts.move(partId,mX()+mouseOfX,mY()+mouseOfY);
+				selectId=-1;
+				selectIds.clear();
+			}
 	}
 	}
 	partId=-1;
@@ -263,6 +296,14 @@ void moveHighlight(){
 	}
 }
 
+void file(){
+	if (saveFlg) {
+		
+	}else if (loadFlg) {
+		
+	}
+}
+
 static public class mouseWheel implements MouseWheelListener{
 	mouseWheel(){}
 	@Override
@@ -271,6 +312,21 @@ static public class mouseWheel implements MouseWheelListener{
 			ofsetY+=15;
 		}else if(e.getWheelRotation()==1){
 			ofsetY-=15;
+		}
+	}
+}
+
+static public class RemoveFileExtension {
+	RemoveFileExtension(){}
+	public String removeFileExtension(String filename) {
+		int lastDotPos = filename.lastIndexOf('.');
+
+		if (lastDotPos == -1) {
+			return filename;
+		} else if (lastDotPos == 0) {
+			return filename;
+		} else {
+			return filename.substring(0, lastDotPos);
 		}
 	}
 }

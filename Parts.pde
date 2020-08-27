@@ -5,8 +5,14 @@ class Parts{
 	Parts(){
 	}
 
-	void newPart(int deg,String gloup,String path,int posX,int posY){
-		part.add(new Part(deg,gloup,path,posX,posY));
+	int newPart(int deg,String gloup,String path,int posX,int posY){
+		if (path!=null) {
+			println(path);
+			part.add(new Part(deg,gloup,path,posX,posY));
+		return 0;
+		}else{
+			return -1;
+		}
 	}
 
 	int getPosX(int index){

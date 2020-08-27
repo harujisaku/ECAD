@@ -23,29 +23,29 @@ public class Menu implements MouseListener{
 		JMenuBar menu_bar = new JMenuBar();
 		frame.setJMenuBar(menu_bar);
 
-		JMenu import_menu = new JMenu("インポート(I)");
+		JMenu file_menu = new JMenu("ファイル(F)");
 		JMenu edit_menu = new JMenu("編集(E)");
 
-		menu_bar.add(import_menu);
+		menu_bar.add(file_menu);
 		menu_bar.add(edit_menu);
 
-		import_menu.setMnemonic(KeyEvent.VK_I); //ショートカットキーを設定この場合だとalt+Iになる。
+		file_menu.setMnemonic(KeyEvent.VK_F); //ショートカットキーを設定この場合だとalt+Iになる。
 		edit_menu.setMnemonic(KeyEvent.VK_E);
 
-		JMenuItem new_file = new JMenuItem("Import file");
-		JMenuItem new_folder = new JMenuItem("Import folder");
-		JMenuItem action_exit = new JMenuItem("Exit");
+		JMenuItem new_file = new JMenuItem("開く");
+		JMenuItem save = new JMenuItem("保存");
+		JMenuItem exit = new JMenuItem("終了");
 
-		import_menu.add(new_file);
-		import_menu.add(new_folder);
-		import_menu.addSeparator();	//線を書く
-		import_menu.add(action_exit);
+		file_menu.add(new_file);
+		file_menu.add(save);
+		file_menu.addSeparator();	//線を書く
+		file_menu.add(exit);
 
 		// JMenuItem copy = new JMenuItem("コピー");
 
 		// edit_menu.add(copy);
 
-		action_exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));	//ショートカットキーを設定この場合だとctrl+q
+		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));	//ショートカットキーを設定この場合だとctrl+q
 
 		frame.setVisible(true);	//多分おまじない
 		popup = new JPopupMenu();
@@ -106,7 +106,7 @@ public class Menu implements MouseListener{
 				setDeg=0;
 			}});
 
-			action_exit.addActionListener(new ActionListener() {
+			exit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					exit();
 			}});
@@ -119,6 +119,14 @@ public class Menu implements MouseListener{
 					copyFlg=true;
 			}});
 			paste.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					pasteFlg=true;
+			}});
+			save.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					pasteFlg=true;
+			}});
+			save.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					pasteFlg=true;
 			}});
