@@ -128,9 +128,16 @@ void mouseReleased(){
 				selectIds.append(partId);
 			}
 		}else{
-		parts.move(partId,mX()+mouseOfX,mY()+mouseOfY);
-		selectId=-1;
-		selectIds.clear();
+			if(mX()<250){
+				parts.remove(partId);
+				partId=-1;
+				selectId=-1;
+				selectIds.clear();
+			}else{
+				parts.move(partId,mX()+mouseOfX,mY()+mouseOfY);
+				selectId=-1;
+				selectIds.clear();
+			}
 	}
 	}
 	partId=-1;
