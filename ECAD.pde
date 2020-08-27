@@ -5,6 +5,10 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.Component;
 import javax.swing.*;
+import processing.awt.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 PImage startPhoto;
 int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg;
 String path="",partPath,partGloup;
@@ -23,6 +27,7 @@ Menu menu;
 PImage boardImg = createImage(350,400,RGB);
 PImage uraboardImg;
 RemoveFileExtension ex= new RemoveFileExtension();
+Button[] button = new Button[50];
 //
 //
 //
@@ -52,6 +57,16 @@ void draw(){
 	if(count==2){
 		count++;
 		menu = new Menu(this);
+			int j=0,k=0;
+		for (int i = 0; i < pL.getSize(); ++i) {
+			if(i*25-25*k==pL.listSizeX||(i*25+3-25*k<=pL.listSizeX&&i*25-3-25*k>=pL.listSizeX)){
+				j++;
+				k=i;
+				println("koeta");
+			}
+		// button[i] = new Button(this,pL.getName(i),i*25-25*k,300+j*25,25,25);
+		}
+		pL.resizeList(pL.listSizeX,pL.listSizeY-j*25-25);
 		println(millis());
 	}else if(count>=3){
 		background(187,201,158);
@@ -328,5 +343,26 @@ static public class RemoveFileExtension {
 		} else {
 			return filename.substring(0, lastDotPos);
 		}
+	}
+}
+
+class Button{
+  //JFrame frame;
+	JButton button1;
+	Button(PApplet app,String text,int posSX,int posSY,int posEX,int posEY){
+    //frame = (JFrame) ((processing.awt.PSurfaceAWT.SmoothCanvas)app.getSurface().getNative()).getFrame();
+    //frame = (JFrame) ((processing.awt.PSurfaceAWT.SmoothCanvas)app.getSurface().getNative()).getFrame();
+	Canvas canvas = (Canvas)surface.getNative();
+	JLayeredPane layeredPane = (JLayeredPane)canvas.getParent().getParent();
+	button1 = new JButton(text);
+	button1.setBounds(posSX,posSY,posEX,posEY);
+	button1.setActionCommand(text);
+	button1.setMargin(new Insets(0,0,0,0));
+	layeredPane.add(button1);
+	//frame.setVisible(true);
+	button1.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+        println("clicked");
+	}});
 	}
 }

@@ -23,7 +23,9 @@ class PartList {
 	void sortAll(){
 		java.util.Arrays.sort(fileNames);
 	}
-
+	int getSize(){
+		return iL.size();
+	}
 	void makeList(){
 		for(int i=0;i<fileNames.length;i++){
 			String name=fileNames[i];
@@ -50,7 +52,9 @@ class PartList {
 	String getPath(int a){
 		return iL.get(a).pushPath(getButton(a));
 	}
-
+	String getName(int a){
+		return fileNames[a];
+	}
 	void scrool(int _scroolX,int _scroolY){
 		scroolX=_scroolX;
 		scroolY=_scroolY;
@@ -67,5 +71,9 @@ class PartList {
 		}else{
 			return null;
 		}
+	}
+	void resizeList(int sizeX,int sizeY){
+		listSizeX=sizeX;
+		listSizeY=sizeY;
 	}
 }
