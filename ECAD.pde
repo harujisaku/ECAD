@@ -36,7 +36,7 @@ void setup(){
 	startPhoto=loadImage("start.png");
 	image(startPhoto,0,0);
 	boardImg.loadPixels();
-	for (int i = 0; i < boardImg.pixels.length; i++) {
+	for (int i = 0,len=boardImg.pixels.length; i < len; i++) {
 		boardImg.pixels[i] = color(187,201,158);
 	}
 	boardImg.updatePixels();
@@ -57,16 +57,33 @@ void draw(){
 	if(count==2){
 		count++;
 		menu = new Menu(this);
-			int j=0,k=0;
-		for (int i = 0; i < pL.getSize(); ++i) {
-			if(i*25-25*k==pL.listSizeX||(i*25+3-25*k<=pL.listSizeX&&i*25-3-25*k>=pL.listSizeX)){
+			int j=0,k=0,sx,sy;
+			sx=pL.listSizeX;
+			sy=pL.listSizeY;
+		for (int i = 0,len=pL.getSize(); i < len; ++i) {
+			if(i*25-25*k==sx||(i*25+3-25*k<=sx&&i*25-3-25*k>=sx)){
 				j++;
 				k=i;
 				println("koeta");
 			}
-		// button[i] = new Button(this,pL.getName(i),i*25-25*k,300+j*25,25,25);
+		button[i] = new Button(this,pL.getName(i),i*25-25*k,400+j*25,25,25);
+		// rect(i*25-25*k,350+j*25,i*25-25*k+25,350+j*25+25)
 		}
-		pL.resizeList(pL.listSizeX,pL.listSizeY-j*25-25);
+		pL.resizeList(sx,sy-j*25-25);
+			sy=pL.listSizeY;
+		int l=0,a=0;
+		for (int i = 0,len=pL.getSize(); i < len; ++i) {
+			if(i*25-25*a==sx||(i*25+3-25*a<=sx&&i*25-3-25*a>=sx)){
+				l++;
+				a=i;
+				println("koeta");
+			}
+		button[i].move(i*25-25*a,sy+l*25);
+		println("l: "+l);
+		println("i*25-25*a: "+(i*25-25*a));
+		println("pL.listSizeY-l/2*25+l*25: "+(sy+l*25));
+		// rect(i*25-25*k,350+j*25,i*25-25*k+25,350+j*25+25)
+		}
 		println(millis());
 	}else if(count>=3){
 		background(187,201,158);
@@ -74,6 +91,7 @@ void draw(){
 		pL.update(f);
 		kopipe();
 		rightClick();
+		buttonCheck();
 		image(boardImg,250,0);
 		moveHighlight();
 		parts.redraw();
@@ -85,7 +103,7 @@ void draw(){
 void mousePressed(){
 	if(mouseButton == LEFT){
 		if(pL.getButton(f)==-1){
-			for(int i=0;i<parts.getSize();i++){
+			for(int i=0,len=parts.getSize();i<len;i++){
 				if(parts.isClick(i)){
 					partId=i;
 					setDeg=-1;
@@ -118,7 +136,7 @@ void mousePressed(){
 			}
 		}
 	}else if(mouseButton==RIGHT){
-		for(int i=0;i<parts.getSize();i++){
+		for(int i=0,len=parts.getSize();i<len;i++){
 			if(parts.isClick(i)==true){
 				setDeg=-1;
 				selectId=i;
@@ -225,6 +243,15 @@ void keyPressed(){
 	}
 }
 
+void buttonCheck(){
+	for (int i = 0,len=pL.getSize(); i < len; ++i) {
+		if(button[i].clicked){
+			f=i;
+			button[i].clicked=false;
+		}
+	}
+}
+
 int mX(){
 	int p;
 	p = mouseX-mouseX%gridS;
@@ -282,7 +309,7 @@ void kopipe(){
 }
 
 void rightClick(){
-	for(int i=0;i<parts.getSize();i++){
+	for(int i=0,len=parts.getSize();i<len;i++){
 		if(selectId==i){
 			if(setDeg!=-1){
 				parts.turn(i,setDeg);
@@ -349,7 +376,15 @@ static public class RemoveFileExtension {
 class Button{
   //JFrame frame;
 	JButton button1;
-	Button(PApplet app,String text,int posSX,int posSY,int posEX,int posEY){
+	boolean clicked=false;
+	String text;
+	int posEX,posEY,posSX,posSY;
+	Button(PApplet app,String _text,int _posSX,int _posSY,int _posEX,int _posEY){
+		text=_text;
+		posEX=_posEX;
+		posEY=_posEY;
+		posSX=_posSX;
+		posSY=_posSY;
     //frame = (JFrame) ((processing.awt.PSurfaceAWT.SmoothCanvas)app.getSurface().getNative()).getFrame();
     //frame = (JFrame) ((processing.awt.PSurfaceAWT.SmoothCanvas)app.getSurface().getNative()).getFrame();
 	Canvas canvas = (Canvas)surface.getNative();
@@ -362,7 +397,11 @@ class Button{
 	//frame.setVisible(true);
 	button1.addActionListener(new ActionListener() {
 	public void actionPerformed(ActionEvent e) {
-        println("clicked");
+		clicked=true;
 	}});
 	}
+	void move(int x,int y){
+		button1.setBounds(x,y,posEX,posEY);
+	}
+	
 }

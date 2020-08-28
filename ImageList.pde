@@ -17,7 +17,7 @@ void redraw(){
 			if (kazu%l_w!=0){
 				tasu=1;
 			}
-			for(int i=0;i<kazu/l_w;i++){
+			for(int i=0,len=kazu/l_w;i<len;i++){
 				for(int j=0;j<l_w;j++){
 					if ((pos_y<=i*s_h+ofset_y+pos_y+h)&&(pos_x<=j*s_w+ofset_x+pos_x+w)&&(pos_y+size_y>=i*s_h+ofset_y+pos_y)&&(pos_x+size_x>=j*s_w+ofset_x+pos_x)){
 						rect(j*s_w+ofset_x+pos_x,i*s_h+ofset_y+pos_y,w,h);
@@ -29,7 +29,7 @@ void redraw(){
 					k++;
 				}
 			}
-			for(int n=0;n<kazu%l_w;n++){
+			for(int n=0,len=kazu%l_w;n<len;n++){
 				if ((pos_y<=kazu/l_w*s_h+ofset_y+pos_y+h)&&(pos_x<=n*s_w+ofset_x+pos_x+w)&&(pos_y+size_y>=kazu/l_w*s_h+ofset_y+pos_y)&&(pos_x+size_x>=n*s_w+ofset_x+pos_x)){
 				rect(n*s_w+ofset_x+pos_x,kazu/l_w*s_h+ofset_y+pos_y,w,h);
 				image(images.get(k),n*s_w+ofset_x+pos_x,kazu/l_w*s_h+ofset_y+pos_y);
@@ -41,7 +41,10 @@ void redraw(){
 		pos_x=p_x;
 		pos_y=p_y;
 	}
-
+	void resize(int s_x,int s_y){
+		size_x=s_x;
+		size_y=s_y;
+	}
 	void scrool(int of_x,int of_y){
 		ofset_x=of_x;
 		ofset_y=of_y;
@@ -65,7 +68,7 @@ void remake(int img_w,int img_h,int box_w,int box_h,int p_x,int p_y,int s_x,int 
 	println(files.length);
 	filesbmp = new String[files.length];
 	filesname = new String[files.length];
-	for(int i= 0; i< files.length; i++){
+	for(int i= 0,len=files.length; i<len; i++){
 		if(files[i].getPath().endsWith("_"+extensions)){
 		}else if(files[i].getPath().endsWith(extensions)){
 			filesbmp[a] = files[i].getAbsolutePath();
@@ -88,7 +91,7 @@ void remake(int img_w,int img_h,int box_w,int box_h,int p_x,int p_y,int s_x,int 
 	int pushButton(){
 		int l=-1;
 		int g=0;
-		for(int i=0;i<kazu/l_w;i++){
+		for(int i=0,len=kazu/l_w;i<len;i++){
 			for(int j=0;j<l_w;j++){
 				if	((mouseX>=j*s_w+ofset_x+pos_x)&&(mouseY>=i*s_h+ofset_y+pos_y)&&(mouseX<=j*s_w+ofset_x+pos_x+w)&&(mouseY<=i*s_h+ofset_y+pos_y+h)&&(mouseX>=pos_x)&&(mouseY>=pos_y)&&(mouseX<=pos_x+size_x)&&(mouseY<=pos_y+size_y)){
 					l=g;
@@ -96,7 +99,7 @@ void remake(int img_w,int img_h,int box_w,int box_h,int p_x,int p_y,int s_x,int 
 				g++;
 			}
 		}
-		for(int n=0;n<kazu%l_w;n++){
+		for(int n=0,len=kazu%l_w;n<len;n++){
 			if ((mouseX>=n*s_w+ofset_x+pos_x)&&(mouseY>=kazu/l_w*s_h+ofset_y+pos_y)&&(mouseX<=n*s_w+ofset_x+pos_x+w)&&(mouseY<=kazu/l_w*s_h+ofset_y+pos_y+h)&&(mouseX>=pos_x)&&(mouseY>=pos_y)&&(mouseX<=pos_x+size_x)&&(mouseY<=pos_y+size_y)){
 				l=g;
 			}

@@ -27,7 +27,7 @@ class PartList {
 		return iL.size();
 	}
 	void makeList(){
-		for(int i=0;i<fileNames.length;i++){
+		for(int i=0,len=fileNames.length;i<len;i++){
 			String name=fileNames[i];
 				println("fileNames[i]: "+fileNames[i]);
 				String fileName=path+fileNames[i];
@@ -36,7 +36,7 @@ class PartList {
 	}
 
 	void update(){
-		for (int i = 0; i < iL.size(); ++i) {
+		for (int i = 0,len=iL.size(); i < len; ++i) {
 			iL.get(i).redraw();
 		}
 	}
@@ -58,7 +58,7 @@ class PartList {
 	void scrool(int _scroolX,int _scroolY){
 		scroolX=_scroolX;
 		scroolY=_scroolY;
-		for (int i = 0; i < iL.size(); ++i) {
+		for (int i = 0,len=iL.size(); i <len; ++i) {
 			iL.get(i).scrool(scroolX,scroolY);
 		}
 	}
@@ -75,5 +75,8 @@ class PartList {
 	void resizeList(int sizeX,int sizeY){
 		listSizeX=sizeX;
 		listSizeY=sizeY;
+		for (int i = 0,len=iL.size(); i < len; ++i) {
+			iL.get(i).resize(listSizeX,listSizeY);
+		}
 	}
 }
