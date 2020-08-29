@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 PImage startPhoto;
-int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg;
+int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0;
 String path="",partPath,partGloup;
 String[] fileNames,fileData;
 static int selectId=-1,ofsetX,ofsetY,setDeg;
@@ -27,7 +27,8 @@ Menu menu;
 PImage boardImg = createImage(350,400,RGB);
 PImage uraboardImg;
 RemoveFileExtension ex= new RemoveFileExtension();
-Button[] button = new Button[50];
+Button[] partsButton = new Button[40];
+Button[] modeButton = new Button[2];
 //
 //
 //
@@ -66,7 +67,7 @@ void draw(){
 				k=i;
 				println("koeta");
 			}
-		button[i] = new Button(this,pL.getName(i),i*25-25*k,400+j*25,25,25);
+		partsButton[i] = new Button(this,pL.getName(i),i*25-25*k,400+j*25,25,25);
 		// rect(i*25-25*k,350+j*25,i*25-25*k+25,350+j*25+25)
 		}
 		pL.resizeList(sx,sy-j*25-25);
@@ -78,12 +79,13 @@ void draw(){
 				a=i;
 				println("koeta");
 			}
-		button[i].move(i*25-25*a,sy+l*25);
+		partsButton[i].move(i*25-25*a,sy+l*25);
 		println("l: "+l);
 		println("i*25-25*a: "+(i*25-25*a));
 		println("pL.listSizeY-l/2*25+l*25: "+(sy+l*25));
 		// rect(i*25-25*k,350+j*25,i*25-25*k+25,350+j*25+25)
 		}
+		buttonSetup();
 		println(millis());
 	}else if(count>=3){
 		background(187,201,158);
@@ -96,57 +98,39 @@ void draw(){
 		moveHighlight();
 		parts.redraw();
 		file();
+		stroke(0);
+		fill(0);
+		line(251,0,251,400);
+		line(251,353,600,353);
+		// stroke(255);
+		fill(255);
 	}
 }
 
 
 void mousePressed(){
-	if(mouseButton == LEFT){
-		if(pL.getButton(f)==-1){
+	if(mode==0){
+		if(mouseButton == LEFT){
+			if(pL.getButton(f)==-1){
+				select();
+			}else{
+				makeParts();
+			}
+		}else if(mouseButton==RIGHT){
 			for(int i=0,len=parts.getSize();i<len;i++){
-				if(parts.isClick(i)){
-					partId=i;
+				if(parts.isClick(i)==true){
 					setDeg=-1;
-					mouseOfX=parts.getPosX(i)-mX();
-					mouseOfY=parts.getPosY(i)-mY();
+					selectId=i;
 					break;
 				}else{
-					partId=-1;
 					setDeg=-1;
 					selectId=-1;
+					selectIds.clear();
 				}
 			}
-			if(partId==-1){
-				selectIds.clear();
-			}
-		}else{
-			File board=new File(pL.getPath(f));
-			String boardPath= board.getParent();
-			String boardName=board.getName();
-			println(boardPath,path+"Board");
-			if(boardPath.equals(path+"Board")){
-				println("board!!");
-				boardImg = loadImage(pL.getPath(f));
-				uraboardImg =  loadImage(boardPath+"\\"+ex.removeFileExtension(boardName)+"_.bmp");
-				// println(boardName);
-				// println(boardPath+"\\"+ex.removeFileExtension(boardName)+"_.bmp");
-			}else{
-				parts.newPart(0,"dd",pL.getPath(f),mX(),mY());
-				partId=parts.getSize()-1;
-			}
 		}
-	}else if(mouseButton==RIGHT){
-		for(int i=0,len=parts.getSize();i<len;i++){
-			if(parts.isClick(i)==true){
-				setDeg=-1;
-				selectId=i;
-				break;
-			}else{
-				setDeg=-1;
-				selectId=-1;
-				selectIds.clear();
-			}
-		}
+	}else if(mode==1){
+
 	}
 }
 
@@ -245,9 +229,15 @@ void keyPressed(){
 
 void buttonCheck(){
 	for (int i = 0,len=pL.getSize(); i < len; ++i) {
-		if(button[i].clicked){
+		if(partsButton[i].clicked){
 			f=i;
-			button[i].clicked=false;
+			partsButton[i].clicked=false;
+		}
+	}
+	for(int i=0,len=modeButton.length;i<len;++i){
+		if(modeButton[i].clicked){
+			mode=i;
+			modeButton[i].clicked=false;
 		}
 	}
 }
@@ -283,6 +273,47 @@ void loadParts(){
 //	 }
 //	 count+=1;
 // }
+
+void select(){
+	for(int i=0,len=parts.getSize();i<len;i++){
+		if(parts.isClick(i)){
+			partId=i;
+			setDeg=-1;
+			mouseOfX=parts.getPosX(i)-mX();
+			mouseOfY=parts.getPosY(i)-mY();
+			break;
+		}else{
+			partId=-1;
+			setDeg=-1;
+			selectId=-1;
+		}
+	}
+	if(partId==-1){
+		selectIds.clear();
+	}
+}
+
+void makeParts(){
+	File board=new File(pL.getPath(f));
+	String boardPath= board.getParent();
+	String boardName=board.getName();
+	println(boardPath,path+"Board");
+	if(boardPath.equals(path+"Board")){
+		println("board!!");
+		boardImg = loadImage(pL.getPath(f));
+		uraboardImg =  loadImage(boardPath+"\\"+ex.removeFileExtension(boardName)+"_.bmp");
+		// println(boardName);
+		// println(boardPath+"\\"+ex.removeFileExtension(boardName)+"_.bmp");
+	}else{
+		parts.newPart(0,"dd",pL.getPath(f),mX(),mY());
+		partId=parts.getSize()-1;
+	}
+}
+
+void buttonSetup(){
+	modeButton[0] = new Button(this,"parts",252,375,50,25);
+	modeButton[1] = new Button(this,"Wiring",302,375,50,25);
+}
 
 void kopipe(){
 	if(removeFlg){
@@ -340,9 +371,9 @@ void moveHighlight(){
 
 void file(){
 	if (saveFlg) {
-		
+
 	}else if (loadFlg) {
-		
+
 	}
 }
 
@@ -403,5 +434,5 @@ class Button{
 	void move(int x,int y){
 		button1.setBounds(x,y,posEX,posEY);
 	}
-	
+
 }
