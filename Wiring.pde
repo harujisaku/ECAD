@@ -89,39 +89,21 @@ class Wiring{
 		void addWire(int _sX,int _sY,int _eX,int _eY){
 			mX=_eX-_sX;mY=_eY-_sY;
 			println("mX ",mX,"mY",mY);
-			if(mY>mX){
-			for (int i = 0,len=mY/10; i < len; ++i) {
-				wire.add(new Wire(_sX,_sY+y,_sX,_sY+y+10,c));
-				wire.get(i).redraw();
-				println("aaaaa");
-				y+=10;
-			}
-			y=0;
-			}else if(mX>mY){
-			for (int i = 0,len=mX/10; i < len; ++i) {
-				wire.add(new Wire(_sX+x,_sY,_sX+x+10,_sY,c));
+			println(abs(mX/10));
+			for(int i=0,len=max(abs(mX),abs(mY))/10;i<len;++i){
+				wire.add(new Wire(_sX+x,_sY+y,int(_sX+x+Math.signum(mX)*10),int(_sY+y+Math.signum(mY)*10),c));
 				wire.get(i).redraw();
 				println("aa");
-				x+=10;
-			}
-			x=0;
-			}else if(mX==mY){
-				for(int i=0,len=abs(mX/10);i<len;++i){
-					wire.add(new Wire(_sX+x,_sY+y,_sX+x+10,_sY+y+10,c));
-					wire.get(i).redraw();
-					println("aa");
-					x+=10;y+=10;
-				}
+				x+=int(Math.signum(mX)*10);y+=int(Math.signum(mY)*10);
 			}
 			x=0;y=0;
 		}
 
 		int whatClick(){
 			for (int i = 0,len=wire.size(); i < len; ++i) {
-			if(wire.get(i).isCloss()){
-				return i;
-			}
-
+				if(wire.get(i).isCloss()){
+					return i;
+				}
 			}
 			return -1;
 		}
