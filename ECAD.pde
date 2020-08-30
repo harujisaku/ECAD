@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 PImage startPhoto;
-int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0;
+int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0,lineSX,lineSY,lineEX,lineEY;
 String path="",partPath,partGloup;
 String[] fileNames,fileData;
 static int selectId=-1,ofsetX,ofsetY,setDeg;
@@ -29,7 +29,7 @@ PImage uraboardImg;
 RemoveFileExtension ex= new RemoveFileExtension();
 Button[] partsButton = new Button[40];
 Button[] modeButton = new Button[2];
-//
+Wiring w = new Wiring(color(255,0,0));
 //
 //
 void setup(){
@@ -104,6 +104,7 @@ void draw(){
 		line(251,353,600,353);
 		// stroke(255);
 		fill(255);
+		w.redraw();
 	}
 }
 
@@ -130,35 +131,17 @@ void mousePressed(){
 			}
 		}
 	}else if(mode==1){
-
+		lineSX=mX();lineSY=mY();
 	}
 }
 
 void mouseReleased(){
-	if(partId!=-1){
-		if(parts.isMove(partId,mX()+mouseOfX,mY()+mouseOfY)){
-			selectId=partId;
-			if(selectIds.hasValue(partId)==false&&keyCode==CONTROL&&keyPressed){
-				selectIds.append(partId);
-			}else{
-				selectIds.clear();
-				selectIds.append(partId);
-			}
-		}else{
-			if(mX()<250){
-				parts.remove(partId);
-				partId=-1;
-				selectId=-1;
-				selectIds.clear();
-			}else{
-				parts.move(partId,mX()+mouseOfX,mY()+mouseOfY);
-				selectId=-1;
-				selectIds.clear();
-			}
+	if(mode==0){
+		moveParts();
+	}else if(mode==1){
+		w.addWires(lineSX,lineSY,mX(),mY());
+		println("ECAD",lineSX,lineSY,mX(),mY());
 	}
-	}
-	partId=-1;
-	mouseOfX=0;mouseOfY=0;
 }
 
 String[] listFileNames(String dir){
@@ -308,6 +291,34 @@ void makeParts(){
 		parts.newPart(0,"dd",pL.getPath(f),mX(),mY());
 		partId=parts.getSize()-1;
 	}
+}
+
+void moveParts(){
+
+	if(partId!=-1){
+		if(parts.isMove(partId,mX()+mouseOfX,mY()+mouseOfY)){
+			selectId=partId;
+			if(selectIds.hasValue(partId)==false&&keyCode==CONTROL&&keyPressed){
+				selectIds.append(partId);
+			}else{
+				selectIds.clear();
+				selectIds.append(partId);
+			}
+		}else{
+			if(mX()<250){
+				parts.remove(partId);
+				partId=-1;
+				selectId=-1;
+				selectIds.clear();
+			}else{
+				parts.move(partId,mX()+mouseOfX,mY()+mouseOfY);
+				selectId=-1;
+				selectIds.clear();
+			}
+		}
+	}
+	partId=-1;
+	mouseOfX=0;mouseOfY=0;
 }
 
 void buttonSetup(){

@@ -1,64 +1,94 @@
 class Wiring{
 	int sX,sY,eX,eY,length,deg,lineEX,lineEY,lineSX,lineSY;
 	color co;
-	Wiring(){
-
+	Wires w;
+	Wiring(color _co){
+		co=_co;
+		w = new Wires(co);
 	}
 
-	void addWires(int _sX,int _sY,int _eX,int _eY,color _co){
-	sX=_sX;sY=_sY;eX=_eX;eY=_eY;co=_co;
+	void addWires(int _sX,int _sY,int _eX,int _eY){
+		print(_sX,_sY,_eX,_eY);
+	sX=_sX;sY=_sY;eX=_eX;eY=_eY;
 	translate(sX,sY);
-	float kaku = degrees(atan2(eY-sY,eX-sX))+180;
+	int kaku;
+	float kakur = degrees(atan2(eY-sY,eX-sX))+180;
 	translate(-sX,-sY);
+	kaku=int(kakur);
 	if ((kaku<=355)&&(kaku>=275)){
 		lineSX=sX;
 		lineSY=sY;
 		lineEX=eX;
 		lineEY=sY-eX+sX;
+		println("a");
 		deg=4;
-	}if ((kaku<=85)&&(kaku>=5)){
-		lineSX=sX;
-		lineSY=sY;
-		lineEX=eX;
-		lineEY=sY+eX-sX;
+	}else if ((kaku<=85)&&(kaku>=5)){
+		lineEX=sX;
+		lineEY=sY;
+		lineSX=eX;
+		lineSY=sY+eX-sX;
+		println("b");
 		deg=2;
-	}if ((kaku<=175)&&(kaku>=95)){
+	}else if ((kaku<=175)&&(kaku>=95)){
 		lineSX=sX;
 		lineSY=sY;
 		lineEX=sY-eY+sX;
 		lineEY=eY;
 		deg=4;
-	}if ((kaku<=265)&&(kaku>=185)){
+		println("c");
+	}else if ((kaku<=265)&&(kaku>=185)){
 		lineSX=sX;
 		lineSY=sY;
 		lineEX=sX+eY-sY;
-		lineEY=eY;
+		lineEY=eY;println("d");
 		deg=2;
-	}if (((kaku<=4)||(kaku>=356))||((kaku<=184)&&(kaku>=176))) {
+	}else if ((kaku<=4)||(kaku>=356)){
+		lineSX=eX;
+		lineEY=sY;
+		lineEX=sX;
+		lineSY=eY;
+		println("variables");
+		deg=3;
+	}else if((kaku<=184)&&(kaku>=176)) {
 		lineSX=sX;
 		lineSY=sY;
 		lineEX=eX;
 		lineEY=sY;
+		println("e");
 		deg=3;
-	}if((kaku<=94)&&(kaku>=86)||((kaku<=274)&&(kaku>=266))){
+	}else if((kaku<=94)&&(kaku>=86)){
+		lineSX=sX;
+		lineSY=eY;
+		lineEX=sX;
+		lineEY=sY;println("g");
+		deg=1;
+	}else if((kaku<=274)&&(kaku>=266)) {
 		lineSX=sX;
 		lineSY=sY;
 		lineEX=sX;
-		lineEY=eY;
+		lineEY=eY;println("f");
 		deg=1;
 	}
+	println("h");
+	w.addWire(lineSX,lineSY,lineEX,lineEY);
+	println("wiring",lineSX,lineSY,lineEX,lineEY);
 	}
 
-	class Wiries{
+	void redraw(){
+		w.redraw();
+	}
+
+	class Wires{
 		ArrayList<Wire> wire = new ArrayList<Wire>();
 		color c;
 		int mX,mY,x=0,y=0;
-		Wiries(color _c){
+		Wires(color _c){
 			c=_c;
 		}
 
 		void addWire(int _sX,int _sY,int _eX,int _eY){
-			mX=_eX-sX;mY=_eY-_sY;
+			mX=_eX-_sX;mY=_eY-_sY;
+			println("mX ",mX,"mY",mY);
 			if(mY>mX){
 			for (int i = 0,len=mY/10; i < len; ++i) {
 				wire.add(new Wire(_sX,_sY+y,_sX,_sY+y+10,c));
@@ -74,7 +104,16 @@ class Wiring{
 				println("aa");
 				x+=10;
 			}
+			x=0;
+			}else if(mX==mY){
+				for(int i=0,len=abs(mX/10);i<len;++i){
+					wire.add(new Wire(_sX+x,_sY+y,_sX+x+10,_sY+y+10,c));
+					wire.get(i).redraw();
+					println("aa");
+					x+=10;y+=10;
+				}
 			}
+			x=0;y=0;
 		}
 
 		int whatClick(){
@@ -86,7 +125,11 @@ class Wiring{
 			}
 			return -1;
 		}
-
+		void redraw(){
+			for (int i=0,len=wire.size();i<len;++i){
+				wire.get(i).redraw();
+			}
+		}
 		class Wire{
 			int sX,sY,eX,eY;
 			color co;
@@ -98,11 +141,11 @@ class Wiring{
 				eY=_eY;
 				co=_co;
 				c=new Closs(sX,sY,eX,eY);
+				println(sX,sY,eX,eY);
 			}
 
 			void redraw(){
-				fill(co);
-				stroke(0);
+				stroke(co);
 				line(sX,sY,eX,eY);
 			}
 
