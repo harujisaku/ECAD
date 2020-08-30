@@ -80,6 +80,13 @@ class Wiring{
 
 	class Wires{
 		ArrayList<Wire> wire = new ArrayList<Wire>();
+		IntList wire = new IntList();
+		IntList sX= new IntList();
+		IntList sY= new IntList();
+		IntList eX= new IntList();
+		IntList eY= new IntList();
+		// IntList hX= new IntList();
+		// IntList hY= new IntList();
 		color c;
 		int mX,mY,x=0,y=0;
 		Wires(color _c){
