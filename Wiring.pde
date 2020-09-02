@@ -80,11 +80,6 @@ class Wiring{
 
 	class Wires{
 		ArrayList<Wire> wire = new ArrayList<Wire>();
-		IntList wire = new IntList();
-		IntList sX= new IntList();
-		IntList sY= new IntList();
-		IntList eX= new IntList();
-		IntList eY= new IntList();
 		// IntList hX= new IntList();
 		// IntList hY= new IntList();
 		color c;
@@ -163,6 +158,24 @@ class Wiring{
 						return false;
 					}
 				}
+			}
+		}
+
+		class WireGroup{
+			IntList wire = new IntList();
+			IntList sXs= new IntList();
+			IntList sYs= new IntList();
+			IntList eXs= new IntList();
+			IntList eYs= new IntList();
+			// int sX,sY,eX,eY;
+			WireGroup(){}
+
+			void addWire(int _sX,int _sY,int _eX,int _eY,int id){
+				sX=_sX;
+				sY=_sY;
+				eX=_eX;
+				eY=_eY;
+				id
 			}
 		}
 	}
