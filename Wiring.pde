@@ -175,7 +175,7 @@ class Wiring{
 				sY=_sY;
 				eX=_eX;
 				eY=_eY;
-				id
+				// id
 			}
 		}
 	}

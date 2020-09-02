@@ -157,11 +157,11 @@ String[] listFileNames(String dir){
 void keyPressed(){
 	switch(key){
 			case 's':
-				PImage img = createImage(width, height, RGB);
+				PImage img = createImage(width, 353, RGB);
 				loadPixels();
 				img.pixels = pixels;
 				img.updatePixels();
-				img = img.get(250, 0, width, height);
+				img = img.get(252, 0, width, 353);
 				img.save("drawing.png");
 				break;
 		case '1':
