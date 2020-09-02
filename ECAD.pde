@@ -156,6 +156,14 @@ String[] listFileNames(String dir){
 
 void keyPressed(){
 	switch(key){
+			case 's':
+				PImage img = createImage(width, height, RGB);
+				loadPixels();
+				img.pixels = pixels;
+				img.updatePixels();
+				img = img.get(250, 0, width, height);
+				img.save("drawing.png");
+				break;
 		case '1':
 			f=0;
 			break;
