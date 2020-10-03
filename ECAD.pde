@@ -33,7 +33,7 @@ Wiring w = new Wiring(color(255,0,0));
 
 void setup(){
 	size(600,400);
-	startPhoto=loadImage("start.png");
+	startPhoto=loadImage("start"+int(random(1)+1)+".png");
 	image(startPhoto,0,0,600,400);
 	boardImg.loadPixels();
 	for (int i = 0,len=boardImg.pixels.length; i < len; i++) {
