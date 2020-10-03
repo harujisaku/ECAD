@@ -88,6 +88,7 @@ void draw(){
 		println(millis());
 	}else if(count>=3){
 		background(187,201,158);
+		stroke(0);
 		pL.scrool(ofsetX,ofsetY);
 		pL.update(f);
 		kopipe();
@@ -97,7 +98,6 @@ void draw(){
 		moveHighlight();
 		parts.redraw();
 		file();
-		stroke(0);
 		fill(0);
 		line(251,0,251,400);
 		line(251,353,600,353);
@@ -139,6 +139,9 @@ void mouseReleased(){
 	if(mode==0){
 		moveParts();
 	}else if(mode==1){
+		if (lineSX==mX()&&lineSY==mY()){
+			return;
+		}
 		w.addWire(lineSX,lineSY,mX(),mY());
 		w.groupWire();
 		println("ECAD",lineSX,lineSY,mX(),mY());
