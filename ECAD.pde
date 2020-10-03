@@ -30,8 +30,7 @@ RemoveFileExtension ex= new RemoveFileExtension();
 Button[] partsButton = new Button[40];
 Button[] modeButton = new Button[2];
 Wiring w = new Wiring(color(255,0,0));
-//
-//
+
 void setup(){
 	size(600,400);
 	startPhoto=loadImage("start.png");
@@ -104,7 +103,7 @@ void draw(){
 		line(251,353,600,353);
 		// stroke(255);
 		fill(255);
-		w.redraw();
+		w.update();
 	}
 }
 
@@ -131,7 +130,8 @@ void mousePressed(){
 			}
 		}
 	}else if(mode==1){
-		lineSX=mX();lineSY=mY();
+		lineSX=mX();
+		lineSY=mY();
 	}
 }
 
@@ -139,7 +139,8 @@ void mouseReleased(){
 	if(mode==0){
 		moveParts();
 	}else if(mode==1){
-		w.addWires(lineSX,lineSY,mX(),mY());
+		w.addWire(lineSX,lineSY,mX(),mY());
+		w.groupWire();
 		println("ECAD",lineSX,lineSY,mX(),mY());
 	}
 }
@@ -234,15 +235,11 @@ void buttonCheck(){
 }
 
 int mX(){
-	int p;
-	p = mouseX-mouseX%gridS;
-	return p;
+	return mouseX-mouseX%gridS;
 }
 
 int mY(){
-	int p;
-	p = mouseY-mouseY%gridS;
-	return p;
+	return mouseY-mouseY%gridS;
 }
 
 void setupComponent(){

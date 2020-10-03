@@ -1,188 +1,156 @@
 class Wiring{
-	int sX,sY,eX,eY,length,deg,lineEX,lineEY,lineSX,lineSY;
-	color co;
-	Wires w;
-	Wiring(color _co){
-		co=_co;
-		w = new Wires(co);
+	protected color lineColor;
+	protected int lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY,deg,_ElineStartPosX,_ElineStartPosY,_ElineEndPosX,_ElineEndPosY;
+	Wires wires=new Wires(color(255,0,0));
+	Wiring(color _lineColor){
+		lineColor=_lineColor;
+	}
+	void addWire(int _lineStartPosX,int _lineStartPosY,int _lineEndPosX,int _lineEndPosY){
+		translate(_lineStartPosX,_lineStartPosY);
+		float degFloat = degrees(atan2(_lineEndPosY-_lineStartPosY,_lineEndPosX-_lineStartPosX))+180;
+		translate(-_lineStartPosX,-_lineStartPosY);
+		deg=int(degFloat);
+		_ElineStartPosX=_lineStartPosX;
+		_ElineStartPosY=_lineStartPosY;
+		_ElineEndPosX=_lineEndPosX;
+		_ElineEndPosY=_lineEndPosY;
+		lineAngleFormating(20);
 	}
 
-	void addWires(int _sX,int _sY,int _eX,int _eY){
-		print(_sX,_sY,_eX,_eY);
-	sX=_sX;sY=_sY;eX=_eX;eY=_eY;
-	translate(sX,sY);
-	int kaku;
-	float kakur = degrees(atan2(eY-sY,eX-sX))+180;
-	translate(-sX,-sY);
-	kaku=int(kakur);
-	if ((kaku<=355)&&(kaku>=275)){
-		lineSX=sX;
-		lineSY=sY;
-		lineEX=eX;
-		lineEY=sY-eX+sX;
-		println("a");
-		deg=4;
-	}else if ((kaku<=85)&&(kaku>=5)){
-		lineEX=sX;
-		lineEY=sY;
-		lineSX=eX;
-		lineSY=sY+eX-sX;
-		println("b");
-		deg=2;
-	}else if ((kaku<=175)&&(kaku>=95)){
-		lineSX=sX;
-		lineSY=sY;
-		lineEX=sY-eY+sX;
-		lineEY=eY;
-		deg=4;
-		println("c");
-	}else if ((kaku<=265)&&(kaku>=185)){
-		lineSX=sX;
-		lineSY=sY;
-		lineEX=sX+eY-sY;
-		lineEY=eY;println("d");
-		deg=2;
-	}else if ((kaku<=4)||(kaku>=356)){
-		lineSX=eX;
-		lineEY=sY;
-		lineEX=sX;
-		lineSY=eY;
-		println("variables");
-		deg=3;
-	}else if((kaku<=184)&&(kaku>=176)) {
-		lineSX=sX;
-		lineSY=sY;
-		lineEX=eX;
-		lineEY=sY;
-		println("e");
-		deg=3;
-	}else if((kaku<=94)&&(kaku>=86)){
-		lineSX=sX;
-		lineSY=eY;
-		lineEX=sX;
-		lineEY=sY;println("g");
-		deg=1;
-	}else if((kaku<=274)&&(kaku>=266)) {
-		lineSX=sX;
-		lineSY=sY;
-		lineEX=sX;
-		lineEY=eY;println("f");
-		deg=1;
-	}
-	println("h");
-	w.addWire(lineSX,lineSY,lineEX,lineEY);
-	println("wiring",lineSX,lineSY,lineEX,lineEY);
+	void update(){
+		wires.update();
 	}
 
-	void redraw(){
-		w.redraw();
+	public void groupWire(){
+		wires.groupWire();
 	}
 
-	class Wires{
-		ArrayList<Wire> wire = new ArrayList<Wire>();
-		// IntList hX= new IntList();
-		// IntList hY= new IntList();
-		color c;
-		int mX,mY,x=0,y=0;
-		Wires(color _c){
-			c=_c;
+	private void lineAngleFormating(int decisionRange){
+		if (deg<=360-decisionRange&&deg>=270+decisionRange){
+			lineStartPosX=_ElineStartPosX;
+			lineStartPosY=_ElineStartPosY;
+			lineEndPosX=_ElineEndPosX;
+			lineEndPosY=_ElineStartPosY-_ElineEndPosX+_ElineStartPosX;
+		}else if(deg<=90-decisionRange&&deg>=decisionRange){
+			lineStartPosX=_ElineEndPosX;
+			lineStartPosY=_ElineStartPosY+_ElineEndPosX-lineStartPosX;
+			lineEndPosX=_ElineStartPosX;
+			lineEndPosY=_ElineStartPosY;
+		}else if(deg<=180-decisionRange&&deg>=90+decisionRange){
+			lineStartPosX=_ElineStartPosX;
+			lineStartPosY=_ElineStartPosY;
+			lineEndPosX=_ElineStartPosY-_ElineEndPosY+_ElineStartPosX;
+			lineEndPosY=_ElineEndPosY;
+		}else if(deg<=270-decisionRange&&deg>=180+decisionRange){
+			lineStartPosX=_ElineStartPosX;
+			lineStartPosY=_ElineStartPosY;
+			lineEndPosX=_ElineStartPosX+_ElineEndPosY-_ElineStartPosY;
+			lineEndPosY=_ElineEndPosY;
+		}else if(deg<=decisionRange||deg>=360-decisionRange){
+			lineStartPosX=_ElineEndPosX;
+			lineEndPosY=_ElineStartPosY;
+			lineEndPosX=_ElineStartPosX;
+			lineStartPosY=_ElineStartPosY;
+		}else if(deg<=180+decisionRange&&deg>=180-decisionRange){
+			lineStartPosX=_ElineStartPosX;
+			lineStartPosY=_ElineStartPosY;
+			lineEndPosX=_ElineEndPosY;
+			lineEndPosY=_ElineStartPosY;
+		}else if(deg<=90+decisionRange&&deg>=90-decisionRange){
+			lineStartPosX=_ElineStartPosX;
+			lineStartPosY=_ElineEndPosY;
+			lineEndPosX=_ElineStartPosX;
+			lineEndPosY=_ElineStartPosY;
+		}else if(deg<=270+decisionRange&&deg>=270-decisionRange){
+			lineStartPosX=_ElineStartPosX;
+			lineStartPosY=_ElineStartPosY;
+			lineEndPosX=_ElineStartPosX;
+			lineEndPosY=_ElineEndPosY;
+		}else{
+			return;
+		}
+		wires.addWire(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
+	}
+
+	protected class Wires{
+		color lineColor;
+		protected ArrayList<Wire> wire = new ArrayList<Wire>();
+		ArrayList<ArrayList<Integer>> id = new ArrayList<ArrayList<Integer>>();
+		Wires(color _lineColor){
+			lineColor=_lineColor;
 		}
 
-		void addWire(int _sX,int _sY,int _eX,int _eY){
-			mX=_eX-_sX;mY=_eY-_sY;
-			println("mX ",mX,"mY",mY);
-			println(abs(mX/10));
-			for(int i=0,len=max(abs(mX),abs(mY))/10;i<len;++i){
-				wire.add(new Wire(_sX+x,_sY+y,int(_sX+x+Math.signum(mX)*10),int(_sY+y+Math.signum(mY)*10),c));
-				wire.get(i).redraw();
-				println("aa");
-				x+=int(Math.signum(mX)*10);y+=int(Math.signum(mY)*10);
-			}
-			x=0;y=0;
-		}
-
-		int whatClick(){
-			for (int i = 0,len=wire.size(); i < len; ++i) {
-				if(wire.get(i).isCloss()){
-					return i;
-				}
-			}
-			return -1;
-		}
-		void redraw(){
-			for (int i=0,len=wire.size();i<len;++i){
+		void update(){
+			for(int i = 0,len=wire.size();i<len;i++){
 				wire.get(i).redraw();
 			}
 		}
-		class Wire{
-			int sX,sY,eX,eY;
-			color co;
-			Closs c;
-			Wire(int _sX,int _sY,int _eX,int _eY,color _co){
-				sX=_sX;
-				sY=_sY;
-				eX=_eX;
-				eY=_eY;
-				co=_co;
-				c=new Closs(sX,sY,eX,eY);
-				println(sX,sY,eX,eY);
-			}
 
-			void redraw(){
-				stroke(co);
-				line(sX,sY,eX,eY);
-			}
+		private void addWire(int _lineStartPosX,int _lineStartPosY,int _lineEndPosX,int _lineEndPosY){
+			wire.add(new Wire(_lineStartPosX,_lineStartPosY,_lineEndPosX,_lineEndPosY,lineColor));
+			ArrayList<Integer> a = new ArrayList<Integer>();
+			a.add(wire.size()-1);
+			id.add(a);
+			printArray(id);
+		}
 
-			boolean isCloss(){
-				return c.isCloss();
-			}
+		public void groupWire(){
+			while(groupWireLoop()){}
+		}
 
-			class Closs{
-				int csX,csY,ceX,ceY,a;
-				float l1,l2,b;
-				Closs(int _sX,int _sY,int _eX,int _eY){
-					csX=_sX;
-					csY=_sY;
-					ceX=_eX;
-					ceY=_eY;
-					l1=sqrt(sq(ceX-csX)+(sq(ceY-csY)));
-				}
-
-				boolean isCloss(){
-					l2=sqrt(sq(mouseX-csX)+(sq(mouseY-csY)));
-					a=int((ceX-csX)*(mouseX-csX)+(ceY-csY)*(mouseY-csY));
-					b=l1*l2;
-					if((a==b)&&l1>=l2){
-						return true;
-					}else{
-						return false;
+		private boolean groupWireLoop(){
+			for(int i = 0,len=id.size();i<len;i++){
+				ArrayList<Integer> b = new ArrayList<Integer>();
+				for(int j = 0,lenj=id.get(i).size();j<lenj;j++){
+					for(int k = 0,lenk=id.size();k<lenk;k++){
+						if (k==i){
+							continue;
+						}
+						for(int l = 0,lenl=id.get(k).size();l<lenl;l++){
+							if(wire.get(id.get(i).get(j)).isCloss(wire.get(id.get(k).get(l)).lineStartPosX,wire.get(id.get(k).get(l)).lineStartPosY,wire.get(id.get(k).get(l)).lineEndPosX,wire.get(id.get(k).get(l)).lineEndPosY)){
+								b=new ArrayList<Integer>(id.get(k));
+								id.get(i).addAll(b);
+								id.remove(k);
+								return true;
+							}
+						}
 					}
 				}
 			}
+			return false;
 		}
 
-		class WireGroup{
-			IntList wire = new IntList();
-			IntList sXs= new IntList();
-			IntList sYs= new IntList();
-			IntList eXs= new IntList();
-			IntList eYs= new IntList();
-			// int sX,sY,eX,eY;
-			WireGroup(){}
 
-			void addWire(int _sX,int _sY,int _eX,int _eY,int id){
-				sX=_sX;
-				sY=_sY;
-				eX=_eX;
-				eY=_eY;
-				// id
-			}
-		}
 	}
+
+	class Wire{
+		int lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY;
+		color lineColor;
+		Wire(int _lineStartPosX,int _lineStartPosY,int _lineEndPosX,int _lineEndPosY,color _lineColor){
+			lineStartPosX=_lineStartPosX;
+			lineStartPosY=_lineStartPosY;
+			lineEndPosX=_lineEndPosX;
+			lineEndPosY=_lineEndPosY;
+			lineColor=_lineColor;
+		}
+
+
+		void redraw(){
+			stroke(lineColor);
+			line(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
+		}
+
+		boolean isCloss(int cx,int cy,int dx,int dy) {
+			int ax=lineStartPosX, ay=lineStartPosY, bx=lineEndPosX, by=lineEndPosY;
+			float ta = (((cx - dx) * (ay - cy)) + ((cy - dy) * (cx - ax)));
+			float tb = (((cx - dx) * (by - cy)) + ((cy - dy) * (cx - bx)));
+			float tc = (((ax - bx) * (cy - ay)) + ((ay - by) * (ax - cx)));
+			float td = (((ax - bx) * (dy - ay)) + ((ay - by) * (ax - dx)));
+			if (int(tc * td) < 0 && int(ta * tb) < 0){
+					return true;
+				}
+				return false;
+			}
+	}
+
 }
-
-// void setup(){
-
-// }
-
-// void draw(){}
