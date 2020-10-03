@@ -54,7 +54,7 @@ class Wiring{
 		}else if(deg<=180+decisionRange&&deg>=180-decisionRange){
 			lineStartPosX=_ElineStartPosX;
 			lineStartPosY=_ElineStartPosY;
-			lineEndPosX=_ElineEndPosY;
+			lineEndPosX=_ElineEndPosX;
 			lineEndPosY=_ElineStartPosY;
 		}else if(deg<=90+decisionRange&&deg>=90-decisionRange){
 			lineStartPosX=_ElineStartPosX;
