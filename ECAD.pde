@@ -34,7 +34,7 @@ Wiring w = new Wiring(color(255,0,0));
 void setup(){
 	size(600,400);
 	startPhoto=loadImage("start.png");
-	image(startPhoto,0,0);
+	image(startPhoto,0,0,600,400);
 	boardImg.loadPixels();
 	for (int i = 0,len=boardImg.pixels.length; i < len; i++) {
 		boardImg.pixels[i] = color(187,201,158);
@@ -50,7 +50,6 @@ void setup(){
 	pL.sortAll();
 	setupComponent();
 	thread("loadParts");
-	// thread("loadPartsSub");
 }
 
 void draw(){
@@ -64,10 +63,8 @@ void draw(){
 			if(i*25-25*k==sx||(i*25+3-25*k<=sx&&i*25-3-25*k>=sx)){
 				j++;
 				k=i;
-				println("koeta");
 			}
 		partsButton[i] = new Button(this,pL.getName(i),i*25-25*k,400+j*25,25,25);
-		// rect(i*25-25*k,350+j*25,i*25-25*k+25,350+j*25+25)
 		}
 		pL.resizeList(sx,sy-j*25-25);
 			sy=pL.listSizeY;
@@ -76,16 +73,10 @@ void draw(){
 			if(i*25-25*a==sx||(i*25+3-25*a<=sx&&i*25-3-25*a>=sx)){
 				l++;
 				a=i;
-				println("koeta");
 			}
 		partsButton[i].move(i*25-25*a,sy+l*25);
-		println("l: "+l);
-		println("i*25-25*a: "+(i*25-25*a));
-		println("pL.listSizeY-l/2*25+l*25: "+(sy+l*25));
-		// rect(i*25-25*k,350+j*25,i*25-25*k+25,350+j*25+25)
 		}
 		buttonSetup();
-		println(millis());
 	}else if(count>=3){
 		background(187,201,158);
 		stroke(0);
@@ -101,7 +92,6 @@ void draw(){
 		fill(0);
 		line(251,0,251,400);
 		line(251,353,600,353);
-		// stroke(255);
 		fill(255);
 		w.update();
 	}
@@ -168,40 +158,6 @@ void keyPressed(){
 				img = img.get(252, 0, width, 353);
 				img.save("drawing.png");
 				break;
-		case '1':
-			f=0;
-			break;
-		case '2':
-			f=1;
-			break;
-		case '3':
-			f=2;
-			break;
-		case '4':
-			f=3;
-			break;
-		case '5':
-			f=4;
-			break;
-		case '6':
-			f=5;
-			break;
-		case '7':
-			f=6;
-			break;
-		case '8':
-			f=7;
-			break;
-		case '9':
-			f=8;
-			break;
-		case '0':
-			f=10;
-			break;
-		case '￿':
-			break;
-		case '?':
-			break;
 		case '':
 		copyFlg=true;
 			break;
@@ -217,7 +173,6 @@ void keyPressed(){
 			removeFlg=false;
 			break;
 		default:
-			f=18;
 			break;
 	}
 }
@@ -226,6 +181,7 @@ void buttonCheck(){
 	for (int i = 0,len=pL.getSize(); i < len; ++i) {
 		if(partsButton[i].clicked){
 			f=i;
+			ofsetY=0;
 			partsButton[i].clicked=false;
 		}
 	}
@@ -255,16 +211,6 @@ void loadParts(){
 	pL.makeList();
 	count+=2;
 }
-//
-// void loadPartsSub(){
-//	 for(int j=10;j<fileNames.length-9;j++){
-//		 String fileName=path+fileNames[j];
-//		 iL2.add(new imageList());
-//		 iL2.get(j-10).remake(63,63,80,80,0,0,250,400,fileName);
-//	 }
-//	 count+=1;
-// }
-
 void select(){
 	for(int i=0,len=parts.getSize();i<len;i++){
 		if(parts.isClick(i)){
@@ -288,13 +234,9 @@ void makeParts(){
 	File board=new File(pL.getPath(f));
 	String boardPath= board.getParent();
 	String boardName=board.getName();
-	println(boardPath,path+"Board");
 	if(boardPath.equals(path+"Board")){
-		println("board!!");
 		boardImg = loadImage(pL.getPath(f));
 		uraboardImg =  loadImage(boardPath+"\\"+ex.removeFileExtension(boardName)+"_.bmp");
-		// println(boardName);
-		// println(boardPath+"\\"+ex.removeFileExtension(boardName)+"_.bmp");
 	}else{
 		parts.newPart(0,"dd",pL.getPath(f),mX(),mY());
 		partId=parts.getSize()-1;
@@ -435,8 +377,6 @@ class Button{
 		posEY=_posEY;
 		posSX=_posSX;
 		posSY=_posSY;
-    //frame = (JFrame) ((processing.awt.PSurfaceAWT.SmoothCanvas)app.getSurface().getNative()).getFrame();
-    //frame = (JFrame) ((processing.awt.PSurfaceAWT.SmoothCanvas)app.getSurface().getNative()).getFrame();
 	Canvas canvas = (Canvas)surface.getNative();
 	JLayeredPane layeredPane = (JLayeredPane)canvas.getParent().getParent();
 	button1 = new JButton(text);
@@ -444,7 +384,6 @@ class Button{
 	button1.setActionCommand(text);
 	button1.setMargin(new Insets(0,0,0,0));
 	layeredPane.add(button1);
-	//frame.setVisible(true);
 	button1.addActionListener(new ActionListener() {
 	public void actionPerformed(ActionEvent e) {
 		clicked=true;

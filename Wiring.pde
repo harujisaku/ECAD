@@ -15,6 +15,7 @@ class Wiring{
 		_ElineEndPosX=_lineEndPosX;
 		_ElineEndPosY=_lineEndPosY;
 		lineAngleFormating(20);
+		wires.addWire(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
 	}
 
 	void update(){
@@ -69,7 +70,6 @@ class Wiring{
 		}else{
 			return;
 		}
-		wires.addWire(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
 	}
 
 	protected class Wires{
