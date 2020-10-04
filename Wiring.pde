@@ -151,6 +151,15 @@ class Wiring{
 				}
 				return false;
 			}
-	}
 
+		boolean isTouching(int checkPointX,int checkPointY){
+			l2=sqrt(sq(checkPointX-csX)+(sq(checkPointY-csY)));
+			a=int((ceX-csX)*(checkPointX-csX)+(ceY-csY)*(checkPointY-csY));
+			b=int(l1*l2);
+			if(a==b&&l1>=l2){
+				return true;
+			}
+			return false;
+		}
+	}
 }
