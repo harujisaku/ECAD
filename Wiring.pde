@@ -18,6 +18,12 @@ class Wiring{
 		wires.addWire(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
 	}
 
+	void moveWire(int _id,int _moveToX,int _moveToY){
+		wires.moveWire(_id,_moveToX,_moveToY);
+	}
+	void relativeMoveWire(int _id,int _moveX,int _moveY){
+		wires.relativeMoveWore(_id,_moveX,_moveY);
+	}
 	void update(){
 		wires.update();
 	}
@@ -94,6 +100,12 @@ class Wiring{
 			printArray(id);
 		}
 
+		void moveWire(int _id,int _moveToX,int _moveToY){
+			wire.get(_id).move(_moveToX,_moveToY);
+		}
+		void relativeMoveWire(int _id,int _moveX,int _moveY){
+			wire.get(_id).relativeMove(_moveX,_moveY);
+		}
 		public void groupWire(){
 			while(groupWireLoop()){}
 		}
@@ -134,6 +146,22 @@ class Wiring{
 			lineColor=_lineColor;
 		}
 
+		void move(int _moveToX,int _moveToY){
+			int moveX,moveY
+			moveX=_moveToX-lineStartPosX;
+			moveY=_moveToY-lineStartPosY;
+			lineStartPosX+=moveX;
+			lineStartPosY+=moveY;
+			lineEndPosX+=moveX;
+			lineEndPosY+=moveY;
+		}
+
+		void relativeMove(int _moveX,int _moveY){
+			lineStartPosX+=_moveX;
+			lineStartPosY+=_moveY;
+			lineEndPosX+=_moveX;
+			lineEndPosY+=_moveY;
+		}
 
 		void redraw(){
 			stroke(lineColor);
