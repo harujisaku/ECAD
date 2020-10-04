@@ -167,6 +167,9 @@ void keyPressed(){
 		case '':
 		copyFlg=true;
 			break;
+		case 'a':
+		w.groupMoveWire(0,20,20);
+		break;
 		case '':
 		pasteFlg=true;
 			break;
