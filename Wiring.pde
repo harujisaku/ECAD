@@ -153,9 +153,10 @@ class Wiring{
 			}
 
 		boolean isTouching(int checkPointX,int checkPointY){
-			l2=sqrt(sq(checkPointX-csX)+(sq(checkPointY-csY)));
-			a=int((ceX-csX)*(checkPointX-csX)+(ceY-csY)*(checkPointY-csY));
-			b=int(l1*l2);
+			float l1=sqrt(sq(lineEndPosX-lineStartPosX)+(sq(lineEndPosY-lineStartPosY)));
+			float l2=sqrt(sq(checkPointX-lineStartPosX)+(sq(checkPointY-lineStartPosY)));
+			int a=int((lineEndPosX-lineStartPosX)*(checkPointX-lineStartPosX)+(lineEndPosY-lineStartPosY)*(checkPointY-lineStartPosY));
+			int b=int(l1*l2);
 			if(a==b&&l1>=l2){
 				return true;
 			}

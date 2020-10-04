@@ -28,7 +28,7 @@ PImage boardImg = createImage(350,400,RGB);
 PImage uraboardImg;
 RemoveFileExtension ex= new RemoveFileExtension();
 Button[] partsButton = new Button[40];
-Button[] modeButton = new Button[2];
+Button[] modeButton = new Button[3];
 Wiring w = new Wiring(color(255,0,0));
 
 void setup(){
@@ -126,6 +126,8 @@ void mousePressed(){
 	}else if(mode==1){
 		lineSX=mX();
 		lineSY=mY();
+	}else if(mode==2){
+
 	}
 }
 
@@ -248,7 +250,6 @@ void makeParts(){
 }
 
 void moveParts(){
-
 	if(partId!=-1){
 		if(parts.isMove(partId,mX()+mouseOfX,mY()+mouseOfY)){
 			selectId=partId;
@@ -278,6 +279,7 @@ void moveParts(){
 void buttonSetup(){
 	modeButton[0] = new Button(this,"parts",252,375,50,25);
 	modeButton[1] = new Button(this,"Wiring",302,375,50,25);
+	modeButton[2] = new Button(this,"Editing",352,375,50,25);
 }
 
 void kopipe(){
