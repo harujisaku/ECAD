@@ -77,7 +77,11 @@ void draw(){
 		partsButton[i].move(i*25-25*a,sy+l*25);
 		}
 		buttonSetup();
+		surface.setResizable(true);
 	}else if(count>=3){
+		if (width<600||height<400){
+			surface.setSize(600,400);
+		}
 		background(187,201,158);
 		stroke(0);
 		pL.scrool(ofsetX,ofsetY);
@@ -90,8 +94,8 @@ void draw(){
 		parts.redraw();
 		file();
 		fill(0);
-		line(251,0,251,400);
-		line(251,353,600,353);
+		line(251,0,251,height);
+		line(251,353,width,353);
 		fill(255);
 		w.update();
 	}
