@@ -358,7 +358,6 @@ static public class RemoveFileExtension {
 	RemoveFileExtension(){}
 	public String removeFileExtension(String filename) {
 		int lastDotPos = filename.lastIndexOf('.');
-
 		if (lastDotPos == -1) {
 			return filename;
 		} else if (lastDotPos == 0) {
@@ -370,7 +369,6 @@ static public class RemoveFileExtension {
 }
 
 class Button{
-  //JFrame frame;
 	JButton button1;
 	boolean clicked=false;
 	String text;
