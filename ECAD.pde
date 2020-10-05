@@ -128,12 +128,12 @@ void mousePressed(){
 		lineSY=mY();
 	}else if(mode==2){
 		if (keyCode==SHIFT&&keyPressed){
-			wireGroupId=w.getTouchingWire(mX(),mY());
+			wireGroupId=w.getTouchingWire(mouseX,mouseY);
 			wireId=-1;
 			println("groupMode");
 			println("wireGroupId ="+wireGroupId);
 		}else if(!keyPressed){
-			wireId=w.getTouchingWire(mX(),mY());
+			wireId=w.getTouchingWire(mouseX,mouseY);
 			wireGroupId=-1;
 			println("wireMode");
 			println("wireId ="+wireId);
