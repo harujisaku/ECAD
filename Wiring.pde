@@ -40,6 +40,10 @@ class Wiring{
 		// line(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
 	}
 
+	void remove(int _id){
+		wires.remove(_id);
+	}
+
 	void setStartPos(int _id,int _setPosX,int _setPosY){
 		translate(_setPosX,_setPosY);
 		float degFloat = degrees(atan2(getLineEndPosY(_id)-_setPosY,getLineEndPosX(_id)-_setPosX))+180;
@@ -170,6 +174,14 @@ class Wiring{
 			for(int i = 0,len=wire.size();i<len;i++){
 				wire.get(i).redraw();
 			}
+		}
+
+		void remove(int _id){
+			if(_id>=wire.size()||_id<0){
+				return;
+			}
+			wire.remove(_id);
+			reGroupWire();
 		}
 
 		private void addWire(int _lineStartPosX,int _lineStartPosY,int _lineEndPosX,int _lineEndPosY){

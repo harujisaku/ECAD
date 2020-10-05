@@ -148,13 +148,13 @@ void mousePressed(){
 			wireGroupId=-1;
 			wireEditId=w.getTouchingEndPoint(mX(),mY());
 			wireEditMode=1;
-		}else if (keyCode==SHIFT&&keyPressed){
+		}else if (keyCode==SHIFT&&keyPressed&&mouseButton==LEFT){
 			wireGroupId=w.getTouchingWire(gridMouseX(5),gridMouseY(5));
 			wireId=-1;
 			wireEditId=-1;
 			println("groupMode");
 			println("wireGroupId ="+wireGroupId);
-		}else if(!keyPressed){
+		}else if(!keyPressed&&mouseButton==LEFT){
 			wireId=w.getTouchingWire(gridMouseX(5),gridMouseY(5));
 			wireGroupId=-1;
 			wireEditId=-1;
@@ -230,6 +230,8 @@ void keyPressed(){
 		case '':
 			if(selectId!=-1){
 				parts.remove(selectId);
+			}else if(mode==2){
+				w.remove(w.getTouchingWire(mX(),mY()));
 			}
 			selectId=-1;
 			selectIds.clear();
@@ -406,6 +408,8 @@ void kopipe(){
 			parts.remove(selectId);
 			selectId=-1;
 			selectIds.clear();
+		}else if(mode==2){
+			w.remove(w.getTouchingWire(mX(),mY()));
 		}
 		removeFlg=false;
 	}else if(copyFlg){
