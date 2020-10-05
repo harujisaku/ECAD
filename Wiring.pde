@@ -48,6 +48,7 @@ class Wiring{
 	}
 
 	private void lineAngleFormating(int decisionRange){
+		println("deg ="+deg);
 		if (deg<=360-decisionRange&&deg>=270+decisionRange){
 			lineStartPosX=_ElineStartPosX;
 			lineStartPosY=_ElineStartPosY;
@@ -55,7 +56,7 @@ class Wiring{
 			lineEndPosY=_ElineStartPosY-_ElineEndPosX+_ElineStartPosX;
 		}else if(deg<=90-decisionRange&&deg>=decisionRange){
 			lineStartPosX=_ElineEndPosX;
-			lineStartPosY=_ElineStartPosY+_ElineEndPosX-lineStartPosX;
+			lineStartPosY=_ElineStartPosY+_ElineEndPosX-_ElineStartPosX;
 			lineEndPosX=_ElineStartPosX;
 			lineEndPosY=_ElineStartPosY;
 		}else if(deg<=180-decisionRange&&deg>=90+decisionRange){
