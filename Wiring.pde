@@ -91,8 +91,21 @@ class Wiring{
 		}else{
 			return;
 		}
+
 	}
 
+	int getLineStartPosX(int _id){
+		return wires.getLineStartPosX(_id);
+	}
+	int getLineStartPosY(int _id){
+		return wires.getLineStartPosY(_id);
+	}
+	int getLineEndPosX(int _id){
+		return wires.getLineEndPosX(_id);
+	}
+	int getLineEndPosY(int _id){
+		return wires.getLineEndPosY(_id);
+	}
 	protected class Wires{
 		color lineColor;
 		protected ArrayList<Wire> wire = new ArrayList<Wire>();
@@ -181,6 +194,18 @@ class Wiring{
 				}
 			}
 			return -1;
+		}
+		int getLineStartPosX(int _id){
+			return wire.get(_id).lineStartPosX;
+		}
+		int getLineStartPosY(int _id){
+			return wire.get(_id).lineStartPosY;
+		}
+		int getLineEndPosX(int _id){
+			return wire.get(_id).lineEndPosX;
+		}
+		int getLineEndPosY(int _id){
+			return wire.get(_id).lineEndPosY;
 		}
 	}
 

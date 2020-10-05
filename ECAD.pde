@@ -128,12 +128,12 @@ void mousePressed(){
 		lineSY=mY();
 	}else if(mode==2){
 		if (keyCode==SHIFT&&keyPressed){
-			wireGroupId=w.getTouchingWire(mouseX,mouseY);
+			wireGroupId=w.getTouchingWire(gridMouseX(5),gridMouseY(5));
 			wireId=-1;
 			println("groupMode");
 			println("wireGroupId ="+wireGroupId);
 		}else if(!keyPressed){
-			wireId=w.getTouchingWire(mouseX,mouseY);
+			wireId=w.getTouchingWire(gridMouseX(5),gridMouseY(5));
 			wireGroupId=-1;
 			println("wireMode");
 			println("wireId ="+wireId);
@@ -154,8 +154,10 @@ void mouseReleased(){
 	}else if(mode==2){
 		if(wireId!=-1){
 			w.moveWire(wireId,mX(),mY());
+			wireId=-1;
 		}else if(wireGroupId!=-1){
 			w.groupMoveFromId(wireGroupId,mX(),mY());
+			wireGroupId=-1;
 		}
 	}
 }
@@ -224,6 +226,13 @@ int mX(){
 
 int mY(){
 	return mouseY-mouseY%gridS;
+}
+
+int gridMouseX(int size){
+	return mouseX-mouseX%size;
+}
+int gridMouseY(int size){
+	return mouseY-mouseY%size;
 }
 
 void setupComponent(){
@@ -352,6 +361,9 @@ void moveHighlight(){
 			rect(mX()-parts.getOfsetY(partId)+mouseOfX,mY()-parts.getSizeX(partId)+parts.getOfsetX(partId)+mouseOfY,parts.getSizeY(partId),parts.getSizeX(partId));
 		}
 		fill(255,255,255);
+	}else if(wireId!=-1){
+		stroke(0);
+		line(mX(),mY(),mX()+w.getLineEndPosX(wireId)-w.getLineStartPosX(wireId),mY()+w.getLineEndPosY(wireId)-w.getLineStartPosY(wireId));
 	}
 }
 
