@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 PImage startPhoto;
-int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0,lineSX,lineSY,lineEX,lineEY,wireId=-1,wireGroupId=-1;
+int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0,lineSX=-1,lineSY=-1,lineEX,lineEY,wireId=-1,wireGroupId=-1;
 String path="",partPath,partGloup;
 String[] fileNames,fileData;
 static int selectId=-1,ofsetX,ofsetY,setDeg;
@@ -92,12 +92,18 @@ void draw(){
 		image(boardImg,250,0);
 		moveHighlight();
 		parts.redraw();
+		if (lineSX!=-1){
+			wireHighlight();
+		}
 		file();
 		fill(0);
 		line(251,0,251,height);
 		line(251,353,width,353);
 		fill(255);
 		w.update();
+		fill(color(0,0,0,0));
+		rect(mX(),mY(),2,2);
+		fill(255);
 	}
 }
 
@@ -146,11 +152,15 @@ void mouseReleased(){
 		moveParts();
 	}else if(mode==1){
 		if (lineSX==mX()&&lineSY==mY()){
+			lineSX=-1;
+			lineSY=-1;
 			return;
 		}
 		w.addWire(lineSX,lineSY,mX(),mY());
 		w.groupWire();
 		println("ECAD",lineSX,lineSY,mX(),mY());
+		lineSX=-1;
+		lineSY=-1;
 	}else if(mode==2){
 		if(wireId!=-1){
 			w.moveWire(wireId,mX(),mY());
@@ -202,6 +212,60 @@ void keyPressed(){
 		default:
 			break;
 	}
+}
+
+void wireHighlight(){
+	lineEX=mX();
+	lineEY=mY();
+	translate(lineSX,lineSY);
+	float degFloat = degrees(atan2(lineEY-lineSY,lineEX-lineSX))+180;
+	translate(-lineSX,-lineSY);
+	int deg=int(degFloat);
+	int hLineEX,hLineEY,hLineSX,hLineSY,decisionRange=20;
+	if (deg<=360-decisionRange&&deg>=270+decisionRange){
+		hLineSX=lineSX;
+		hLineSY=lineSY;
+		hLineEX=lineEX;
+		hLineEY=lineSY-lineEX+lineSX;
+	}else if(deg<=90-decisionRange&&deg>=decisionRange){
+		hLineSX=lineEX;
+		hLineSY=lineSY+lineEX-lineSX;
+		hLineEX=lineSX;
+		hLineEY=lineSY;
+	}else if(deg<=180-decisionRange&&deg>=90+decisionRange){
+		hLineSX=lineSX;
+		hLineSY=lineSY;
+		hLineEX=lineSY-lineEY+lineSX;
+		hLineEY=lineEY;
+	}else if(deg<=270-decisionRange&&deg>=180+decisionRange){
+		hLineSX=lineSX;
+		hLineSY=lineSY;
+		hLineEX=lineSX+lineEY-lineSY;
+		hLineEY=lineEY;
+	}else if(deg<=decisionRange||deg>=360-decisionRange){
+		hLineSX=lineEX;
+		hLineEY=lineSY;
+		hLineEX=lineSX;
+		hLineSY=lineSY;
+	}else if(deg<=180+decisionRange&&deg>=180-decisionRange){
+		hLineSX=lineSX;
+		hLineSY=lineSY;
+		hLineEX=lineEX;
+		hLineEY=lineSY;
+	}else if(deg<=90+decisionRange&&deg>=90-decisionRange){
+		hLineSX=lineSX;
+		hLineSY=lineEY;
+		hLineEX=lineSX;
+		hLineEY=lineSY;
+	}else if(deg<=270+decisionRange&&deg>=270-decisionRange){
+		hLineSX=lineSX;
+		hLineSY=lineSY;
+		hLineEX=lineSX;
+		hLineEY=lineEY;
+	}else{
+		return;
+	}
+	line(hLineSX,hLineSY,hLineEX,hLineEY);
 }
 
 void buttonCheck(){
