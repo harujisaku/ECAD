@@ -1,6 +1,6 @@
 class Wiring{
 	protected color lineColor;
-	protected int lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY,deg,_ElineStartPosX,_ElineStartPosY,_ElineEndPosX,_ElineEndPosY;
+	protected int lineStartPosX=0,lineStartPosY=0,lineEndPosX=0,lineEndPosY=0,deg,_ElineStartPosX,_ElineStartPosY,_ElineEndPosX,_ElineEndPosY;
 	Wires wires=new Wires(color(255,0,0));
 	Wiring(color _lineColor){
 		lineColor=_lineColor;
@@ -37,10 +37,46 @@ class Wiring{
 
 	void update(){
 		wires.update();
+		// line(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
+	}
+
+	void setStartPos(int _id,int _setPosX,int _setPosY){
+		translate(_setPosX,_setPosY);
+		float degFloat = degrees(atan2(getLineEndPosY(_id)-_setPosY,getLineEndPosX(_id)-_setPosX))+180;
+		translate(-_setPosX,-_setPosY);
+		deg=int(degFloat);
+		_ElineEndPosX=_setPosX;
+		_ElineEndPosY=_setPosY;
+		_ElineStartPosX=getLineEndPosX(_id);
+		_ElineStartPosY=getLineEndPosY(_id);
+		lineAngleFormating(20);
+		// line(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
+		wires.setStartPos(_id,lineStartPosX,lineStartPosY);
+	}
+
+	void setEndPos(int _id,int _setPosX,int _setPosY){
+		translate(getLineStartPosX(_id),getLineStartPosY(_id));
+		float degFloat = degrees(atan2(_setPosY-getLineStartPosY(_id),_setPosX-getLineStartPosX(_id)))+180;
+		translate(-getLineStartPosX(_id),-getLineStartPosY(_id));
+		deg=int(degFloat);
+		_ElineEndPosX=_setPosX;
+		_ElineEndPosY=_setPosY;
+		_ElineStartPosX=getLineStartPosX(_id);
+		_ElineStartPosY=getLineStartPosY(_id);
+		lineAngleFormating(20);
+		// line(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
+		wires.setEndPos(_id,lineEndPosX,lineEndPosY);
 	}
 
 	int getTouchingWire(int _checkPointX,int _checkPointY){
 		return wires.getTouchingWire(_checkPointX,_checkPointY);
+	}
+
+	int getTouchingStartPoint(int _checkPointX,int _checkPointY){
+		return wires.getTouchingStartPoint(_checkPointX,_checkPointY);
+	}
+	int getTouchingEndPoint(int _checkPointX,int _checkPointY){
+		return wires.getTouchingEndPoint(_checkPointX,_checkPointY);
 	}
 
 	public void groupWire(){
@@ -208,6 +244,33 @@ class Wiring{
 		int getLineEndPosY(int _id){
 			return wire.get(_id).lineEndPosY;
 		}
+
+		int getTouchingStartPoint(int _checkPointX,int _checkPointY){
+			for(int i = 0,len=wire.size();i<len;i++){
+				if (getLineStartPosX(i)==_checkPointX&&getLineStartPosY(i)==_checkPointY){
+					return i;
+				}
+			}
+			return -1;
+		}
+		int getTouchingEndPoint(int _checkPointX,int _checkPointY){
+			for(int i = 0,len=wire.size();i<len;i++){
+				if (getLineEndPosX(i)==_checkPointX&&getLineEndPosY(i)==_checkPointY){
+					return i;
+				}
+			}
+			return -1;
+		}
+
+		void setStartPos(int _id,int _setPosX,int _setPosY){
+			wire.get(_id).lineStartPosX=_setPosX;
+			wire.get(_id).lineStartPosY=_setPosY;
+		}
+		void setEndPos(int _id,int _setPosX,int _setPosY){
+			wire.get(_id).lineEndPosX=_setPosX;
+			wire.get(_id).lineEndPosY=_setPosY;
+		}
+
 	}
 
 	class Wire{
@@ -241,6 +304,7 @@ class Wiring{
 		void redraw(){
 			stroke(lineColor);
 			line(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
+			rect(lineStartPosX,lineStartPosY,5,5);
 		}
 
 		boolean isCloss(int cx,int cy,int dx,int dy) {

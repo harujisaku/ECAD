@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 PImage startPhoto;
-int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0,lineSX=-1,lineSY=-1,lineEX,lineEY,wireId=-1,wireGroupId=-1;
+int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0,lineSX=-1,lineSY=-1,lineEX,lineEY,wireId=-1,wireGroupId=-1,wireEditId=-1,wireEditMode;
 String path="",partPath,partGloup;
 String[] fileNames,fileData;
 static int selectId=-1,ofsetX,ofsetY,setDeg;
@@ -134,14 +134,30 @@ void mousePressed(){
 		lineSX=mX();
 		lineSY=mY();
 	}else if(mode==2){
-		if (keyCode==SHIFT&&keyPressed){
+		if (w.getTouchingStartPoint(mX(),mY())!=-1){
+			lineSX=w.getLineEndPosX(w.getTouchingStartPoint(mX(),mY()));
+			lineSY=w.getLineEndPosY(w.getTouchingStartPoint(mX(),mY()));
+			wireId=-1;
+			wireGroupId=-1;
+			wireEditId=w.getTouchingStartPoint(mX(),mY());
+			wireEditMode=0;
+		}else if(w.getTouchingEndPoint(mX(),mY())!=-1){
+			lineSX=w.getLineStartPosX(w.getTouchingEndPoint(mX(),mY()));
+			lineSY=w.getLineStartPosY(w.getTouchingEndPoint(mX(),mY()));
+			wireId=-1;
+			wireGroupId=-1;
+			wireEditId=w.getTouchingEndPoint(mX(),mY());
+			wireEditMode=1;
+		}else if (keyCode==SHIFT&&keyPressed){
 			wireGroupId=w.getTouchingWire(gridMouseX(5),gridMouseY(5));
 			wireId=-1;
+			wireEditId=-1;
 			println("groupMode");
 			println("wireGroupId ="+wireGroupId);
 		}else if(!keyPressed){
 			wireId=w.getTouchingWire(gridMouseX(5),gridMouseY(5));
 			wireGroupId=-1;
+			wireEditId=-1;
 			println("wireMode");
 			println("wireId ="+wireId);
 		}
@@ -169,6 +185,14 @@ void mouseReleased(){
 		}else if(wireGroupId!=-1){
 			w.groupMoveFromId(wireGroupId,mX(),mY());
 			wireGroupId=-1;
+		}else if(wireEditId!=-1){
+			lineSX=-1;
+			lineSY=-1;
+			if (wireEditMode==0){
+				w.setStartPos(wireEditId,mX(),mY());
+			}else if(wireEditMode==1){
+				w.setEndPos(wireEditId,mX(),mY());
+			}
 		}
 	}
 }
