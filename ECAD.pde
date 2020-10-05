@@ -179,6 +179,7 @@ void mouseReleased(){
 		lineSX=-1;
 		lineSY=-1;
 	}else if(mode==2){
+		w.reGroupWire();
 		if(wireId!=-1){
 			w.moveWire(wireId,mX(),mY());
 			wireId=-1;

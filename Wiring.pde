@@ -85,6 +85,11 @@ class Wiring{
 		wires.groupWire();
 	}
 
+	void reGroupWire(){
+		wires.decompositionGroup();
+		wires.groupWire();
+	}
+
 	private void lineAngleFormating(int decisionRange){
 		println("deg ="+deg);
 		if (deg<=360-decisionRange&&deg>=270+decisionRange){
@@ -210,6 +215,16 @@ class Wiring{
 
 		public void groupWire(){
 			while(groupWireLoop()){}
+		}
+
+		void decompositionGroup(){
+			id.clear();
+			for(int i = 0,len=wire.size();i<len;i++){
+				ArrayList<Integer> a = new ArrayList<Integer>();
+				a.add(i);
+				id.add(a);
+			}
+			groupWire();
 		}
 
 		private boolean groupWireLoop(){
