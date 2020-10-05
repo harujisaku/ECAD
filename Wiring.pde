@@ -249,7 +249,7 @@ class Wiring{
 			float tb = (((cx - dx) * (by - cy)) + ((cy - dy) * (cx - bx)));
 			float tc = (((ax - bx) * (cy - ay)) + ((ay - by) * (ax - cx)));
 			float td = (((ax - bx) * (dy - ay)) + ((ay - by) * (ax - dx)));
-			if (int(tc * td) < 0 && int(ta * tb) < 0){
+			if (int(tc * td) <= 0 && int(ta * tb) <= 0){
 					return true;
 				}
 				return false;

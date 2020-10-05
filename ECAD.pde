@@ -101,6 +101,7 @@ void draw(){
 		line(251,353,width,353);
 		fill(255);
 		w.update();
+		stroke(0);
 		fill(color(0,0,0,0));
 		rect(mX(),mY(),2,2);
 		fill(255);
