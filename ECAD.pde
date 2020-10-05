@@ -134,14 +134,14 @@ void mousePressed(){
 		lineSX=mX();
 		lineSY=mY();
 	}else if(mode==2){
-		if (w.getTouchingStartPoint(mX(),mY())!=-1){
+		if (w.getTouchingStartPoint(mX(),mY())!=-1&&mouseButton==LEFT){
 			lineSX=w.getLineEndPosX(w.getTouchingStartPoint(mX(),mY()));
 			lineSY=w.getLineEndPosY(w.getTouchingStartPoint(mX(),mY()));
 			wireId=-1;
 			wireGroupId=-1;
 			wireEditId=w.getTouchingStartPoint(mX(),mY());
 			wireEditMode=0;
-		}else if(w.getTouchingEndPoint(mX(),mY())!=-1){
+		}else if(w.getTouchingEndPoint(mX(),mY())!=-1&&mouseButton==LEFT){
 			lineSX=w.getLineStartPosX(w.getTouchingEndPoint(mX(),mY()));
 			lineSY=w.getLineStartPosY(w.getTouchingEndPoint(mX(),mY()));
 			wireId=-1;
@@ -160,6 +160,10 @@ void mousePressed(){
 			wireEditId=-1;
 			println("wireMode");
 			println("wireId ="+wireId);
+		}else if(mouseButton==RIGHT){
+			wireId=-1;
+			wireGroupId=-1;
+			wireEditId=-1;
 		}
 	}
 }
