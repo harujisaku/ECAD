@@ -39,6 +39,10 @@ class Wiring{
 		wires.update();
 	}
 
+	int getTouchingWire(int _checkPointX,int _checkPointY){
+		return wires.getTouchingWire(_checkPointX,_checkPointY);
+	}
+
 	public void groupWire(){
 		wires.groupWire();
 	}
@@ -170,7 +174,14 @@ class Wiring{
 			return false;
 		}
 
-
+		int getTouchingWire(int _checkPointX,int _checkPointY){
+			for(int i = 0,len=wire.size();i<len;i++){
+				if(wire.get(i).isTouching(_checkPointX,_checkPointY)){
+					return i;
+				}
+			}
+			return -1;
+		}
 	}
 
 	class Wire{

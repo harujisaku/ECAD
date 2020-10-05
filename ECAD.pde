@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 PImage startPhoto;
-int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0,lineSX,lineSY,lineEX,lineEY;
+int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0,lineSX,lineSY,lineEX,lineEY,wireId=-1,wireGroupId=-1;
 String path="",partPath,partGloup;
 String[] fileNames,fileData;
 static int selectId=-1,ofsetX,ofsetY,setDeg;
@@ -127,7 +127,17 @@ void mousePressed(){
 		lineSX=mX();
 		lineSY=mY();
 	}else if(mode==2){
-
+		if (keyCode==SHIFT&&keyPressed){
+			wireGroupId=w.getTouchingWire(mX(),mY());
+			wireId=-1;
+			println("groupMode");
+			println("wireGroupId ="+wireGroupId);
+		}else if(!keyPressed){
+			wireId=w.getTouchingWire(mX(),mY());
+			wireGroupId=-1;
+			println("wireMode");
+			println("wireId ="+wireId);
+		}
 	}
 }
 
@@ -141,6 +151,12 @@ void mouseReleased(){
 		w.addWire(lineSX,lineSY,mX(),mY());
 		w.groupWire();
 		println("ECAD",lineSX,lineSY,mX(),mY());
+	}else if(mode==2){
+		if(wireId!=-1){
+			w.moveWire(wireId,mX(),mY());
+		}else if(wireGroupId!=-1){
+			w.groupMoveFromId(wireGroupId,mX(),mY());
+		}
 	}
 }
 
