@@ -30,6 +30,11 @@ class Wiring{
 	void groupMoveFromId(int _id,int _moveToX,int _moveToY){
 		wires.groupMoveFromId(_id,_moveToX,_moveToY);
 	}
+
+	void groupRelativeMoveFromId(int _id,int _moveX,int _moveY){
+		wires.groupRelativeMoveFromId(_id,_moveX,_moveY);
+	}
+
 	void update(){
 		wires.update();
 	}
@@ -127,6 +132,14 @@ class Wiring{
 					moveY=_moveToY-wire.get(_id).lineStartPosY;
 					groupMoveWire(i,moveX,moveY);
 					return;
+				}
+			}
+		}
+
+		void groupRelativeMoveFromId(int _id,int _moveX,int _moveY){
+			for(int i = 0,len=id.size();i<len;i++){
+				if (id.get(i).indexOf(_id)>=0){
+					groupMoveWire(i,_moveX,_moveY);
 				}
 			}
 		}
