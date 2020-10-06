@@ -1,4 +1,3 @@
-import java.util.Date;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -8,7 +7,7 @@ import javax.swing.*;
 import processing.awt.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
+
 PImage startPhoto;
 int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0,lineSX=-1,lineSY=-1,lineEX,lineEY,wireId=-1,wireGroupId=-1,wireEditId=-1,wireEditMode;
 String path="",partPath,partGloup;
