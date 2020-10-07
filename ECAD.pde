@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 PImage startPhoto;
-int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0,lineSX=-1,lineSY=-1,lineEX,lineEY,wireId=-1,wireGroupId=-1,wireEditId=-1,wireEditMode;
+int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0,lineSX=-1,lineSY=-1,lineEX,lineEY,wireId=-1,wireGroupId=-1,wireEditId=-1,wireEditMode,windowX,windowY;
 String path="",partPath,partGloup;
 String[] fileNames,fileData;
 static int selectId=-1,ofsetX,ofsetY,setDeg;
@@ -94,10 +94,15 @@ void draw(){
 		if (lineSX!=-1){
 			wireHighlight();
 		}
+		if (windowSizeCheck()){
+			for(int i = 0,len=modeButton.length;i<len;i++){
+				modeButton[i].move(-1,height-20);
+			}
+		}
 		file();
 		fill(0);
 		line(251,0,251,height);
-		line(251,353,width,353);
+		line(251,height-47,width,height-47);
 		fill(255);
 		w.update();
 		stroke(0);
@@ -445,6 +450,15 @@ void rightClick(){
 	}
 }
 
+boolean windowSizeCheck(){
+	if (windowX!=width||windowY!=height){
+		windowX=width;
+		windowY=height;
+		return true;
+	}
+	return false;
+}
+
 void moveHighlight(){
 	if(partId!=-1){
 		fill(255,255,255,0);
@@ -522,6 +536,11 @@ class Button{
 	}});
 	}
 	void move(int x,int y){
+		if (x==-1){
+			x=posSX;
+		}else if(y==-1){
+			y=posSY;
+		}
 		button1.setBounds(x,y,posEX,posEY);
 	}
 
