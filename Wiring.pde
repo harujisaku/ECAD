@@ -1,9 +1,12 @@
 class Wiring{
 	protected color lineColor;
 	protected int lineStartPosX=0,lineStartPosY=0,lineEndPosX=0,lineEndPosY=0,deg,_ElineStartPosX,_ElineStartPosY,_ElineEndPosX,_ElineEndPosY;
-	Wires wires=new Wires(color(255,0,0));
-	Wiring(color _lineColor){
+	PGraphics base;
+	Wires wires;
+	Wiring(color _lineColor,PGraphics _base){
 		lineColor=_lineColor;
+		base=_base;
+		wires =new Wires(color(255,0,0),base);
 	}
 	void addWire(int _lineStartPosX,int _lineStartPosY,int _lineEndPosX,int _lineEndPosY){
 		translate(_lineStartPosX,_lineStartPosY);
@@ -164,10 +167,12 @@ class Wiring{
 	}
 	protected class Wires{
 		color lineColor;
+		PGraphics base;
 		protected ArrayList<Wire> wire = new ArrayList<Wire>();
 		ArrayList<ArrayList<Integer>> id = new ArrayList<ArrayList<Integer>>();
-		Wires(color _lineColor){
+		Wires(color _lineColor,PGraphics _base){
 			lineColor=_lineColor;
+			base=_base;
 		}
 
 		void update(){
@@ -185,7 +190,7 @@ class Wiring{
 		}
 
 		private void addWire(int _lineStartPosX,int _lineStartPosY,int _lineEndPosX,int _lineEndPosY){
-			wire.add(new Wire(_lineStartPosX,_lineStartPosY,_lineEndPosX,_lineEndPosY,lineColor));
+			wire.add(new Wire(_lineStartPosX,_lineStartPosY,_lineEndPosX,_lineEndPosY,lineColor,base));
 			ArrayList<Integer> a = new ArrayList<Integer>();
 			a.add(wire.size()-1);
 			id.add(a);
@@ -313,12 +318,14 @@ class Wiring{
 	class Wire{
 		int lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY;
 		color lineColor;
-		Wire(int _lineStartPosX,int _lineStartPosY,int _lineEndPosX,int _lineEndPosY,color _lineColor){
+		PGraphics base;
+		Wire(int _lineStartPosX,int _lineStartPosY,int _lineEndPosX,int _lineEndPosY,color _lineColor,PGraphics _base){
 			lineStartPosX=_lineStartPosX;
 			lineStartPosY=_lineStartPosY;
 			lineEndPosX=_lineEndPosX;
 			lineEndPosY=_lineEndPosY;
 			lineColor=_lineColor;
+			base=_base;
 		}
 
 		void move(int _moveToX,int _moveToY){
@@ -340,8 +347,10 @@ class Wiring{
 
 		void redraw(){
 			stroke(lineColor);
-			line(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
-			rect(lineStartPosX,lineStartPosY,5,5);
+			base.beginDraw();
+			base.line(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
+			base.rect(lineStartPosX,lineStartPosY,5,5);
+			base.endDraw();
 		}
 
 		boolean isCloss(int cx,int cy,int dx,int dy) {

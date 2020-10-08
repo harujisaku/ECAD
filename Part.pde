@@ -4,12 +4,14 @@ class Part{
 	String copyPath,copyGloup;
 	boolean isNoMove=false;
 	PImage photo;
-	Part(int _deg,String gloup,String path,int _posX,int _posY){
-		newParts(_deg,gloup,path,_posX,_posY);
+	PGraphics base;
+	Part(int _deg,String gloup,String path,int _posX,int _posY,PGraphics _base){
+		newParts(_deg,gloup,path,_posX,_posY,_base);
 	}
 	Part(){}
-	void newParts(int _deg,String gloup,String path,int _posX,int _posY) {
+	void newParts(int _deg,String gloup,String path,int _posX,int _posY,PGraphics _base) {
 		photo = loadImage(path);
+		base=_base;
 		posX=_posX;
 		posY=_posY;
 		copyPath=path;
@@ -44,9 +46,11 @@ class Part{
 
 	void redrawParts() {
 		pushMatrix();
-		translate(posX,posY);
-		rotate(radians(deg*90));
-		image(photo,0-ofsetX,0-ofsetY);
+		base.beginDraw();
+		base.translate(posX,posY);
+		base.rotate(radians(deg*90));
+		base.image(photo,0-ofsetX,0-ofsetY);
+		base.endDraw();
 		popMatrix();
 	}
 

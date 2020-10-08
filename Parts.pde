@@ -2,13 +2,15 @@ class Parts{
 	ArrayList<Part> part = new ArrayList<Part>();
 	int partPosX,partPosY,partDeg;
 	String partPath,partGloup;
-	Parts(){
+	PGraphics base;
+	Parts(PGraphics _base){
+		base=_base;
 	}
 
 	int newPart(int deg,String gloup,String path,int posX,int posY){
 		if (path!=null) {
 			println(path);
-			part.add(new Part(deg,gloup,path,posX,posY));
+			part.add(new Part(deg,gloup,path,posX,posY,base));
 		return 0;
 		}else{
 			return -1;
