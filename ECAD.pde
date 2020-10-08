@@ -32,7 +32,7 @@ Wiring w = new Wiring(color(255,0,0));
 
 void setup(){
 	size(600,400);
-	startPhoto=loadImage("start"+int(random(1)+1)+".png");
+	startPhoto=loadImage("start.png");
 	image(startPhoto,0,0,600,400);
 	boardImg.loadPixels();
 	for (int i = 0,len=boardImg.pixels.length; i < len; i++) {
@@ -42,7 +42,7 @@ void setup(){
 	path = "C:\\Users\\haruj\\Documents\\ECAD\\parts\\";
 	pL=new PartList(63,63,80,80,0,0,250,400,path);
 	try {
-		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
 	} catch (Exception e) {
 		e.printStackTrace();
 	}

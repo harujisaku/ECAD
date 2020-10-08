@@ -14,6 +14,9 @@ class PartList {
 		listSizeY=_listSizeY;
 		directory=_directory;
 		fileNames=listFileNames(directory);
+		if(fileNames==null){
+			fileNames= new String[0];
+		}
 	}
 
 	void sortDir(){
@@ -21,7 +24,9 @@ class PartList {
 	}
 
 	void sortAll(){
-		java.util.Arrays.sort(fileNames);
+		if(fileNames!=null){
+			java.util.Arrays.sort(fileNames);
+		}
 	}
 	int getSize(){
 		return iL.size();
@@ -42,10 +47,16 @@ class PartList {
 	}
 
 	void update(int a){
+		if(a<0||a>iL.size()-1){
+			return;
+		}
 		iL.get(a).redraw();
 	}
 
 	int getButton(int a){
+		if(a<0||a>iL.size()-1){
+			return -1;
+		}
 		return iL.get(a).pushButton();
 	}
 
