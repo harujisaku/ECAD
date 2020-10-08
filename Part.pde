@@ -1,42 +1,40 @@
 class Part{
-	int size_x,size_y,pos_x,pos_y,deg,ofset_x,ofset_y;
+	int sizeX,sizeY,posX,posY,deg,ofsetX,ofsetY;
 	int copySizeX,copySizeY,copyPosX,copyPosY,copyDeg,copyOfX,copyOfY;
 	String copyPath,copyGloup;
 	boolean isNoMove=false;
 	PImage photo;
-	Part(int _deg,String gloup,String path,int ps_x,int ps_y){
-		new_parts(_deg,gloup,path,ps_x,ps_y);
+	Part(int _deg,String gloup,String path,int _posX,int _posY){
+		newParts(_deg,gloup,path,_posX,_posY);
 	}
 	Part(){}
-	void new_parts(int _deg,String gloup,String path,int ps_x,int ps_y) {
+	void newParts(int _deg,String gloup,String path,int _posX,int _posY) {
 		photo = loadImage(path);
-		pos_x=ps_x;
-		pos_y=ps_y;
+		posX=_posX;
+		posY=_posY;
 		copyPath=path;
 		copyGloup=gloup;
-		size_x=photo.width;
-		size_y=photo.height;
-		ofset_x=serch_point_x(photo.width,photo.height);
-		ofset_y=serch_point_y(photo.width,photo.height);
+		sizeX=photo.width;
+		sizeY=photo.height;
+		ofsetX=serchPointX(photo.width,photo.height);
+		ofsetY=serchPointY(photo.width,photo.height);
 		if(_deg!=-1){
 			deg=_deg;
 		}
-		// redraw_parts();
 	}
 
-	void move_parts(int ps_x,int ps_y){
-		if(pos_x==ps_x&&pos_y==ps_y){
+	void moveParts(int _posX,int _posY){
+		if(posX==_posX&&posY==_posY){
 			isNoMove=true;
 		}else{
 			isNoMove=false;
 		}
-		pos_x=ps_x;
-		pos_y=ps_y;
-		// redraw_parts();
+		posX=_posX;
+		posY=_posY;
 	}
 
 	boolean moveCheck(int psX,int psY){
-		if(pos_x==psX&&pos_y==psY){
+		if(posX==psX&&posY==psY){
 			isNoMove=true;
 		}else{
 			isNoMove=false;
@@ -44,99 +42,44 @@ class Part{
 		return isNoMove;
 	}
 
-	void redraw_parts() {
+	void redrawParts() {
 		pushMatrix();
-		translate(pos_x,pos_y);
+		translate(posX,posY);
 		rotate(radians(deg*90));
-		image(photo,0-ofset_x,0-ofset_y);
+		image(photo,0-ofsetX,0-ofsetY);
 		popMatrix();
 	}
 
-	void print_variable() {
+	void printVariable() {
 		println(deg);
-		println(pos_x);
-		println(pos_y);
-		println(ofset_x);
-		println(ofset_y);
-	}
-
-	// boolean _poscheck() {
-	// 	if ((deg==0)||(deg==2)){
-	// 	if ((mouseX>=pos_x-ofset_x)&&(mouseY>=pos_y-ofset_y)&&(mouseX<=pos_x+size_x-ofset_x)&&(mouseY<=pos_y+size_y-ofset_y)){
-	// 		return true;
-	// 	}else{
-	// 		return false;
-	// 	}
-	// 	}else{
-	// 		if ((mouseX>=pos_x+size_x/2-size_y/2-ofset_x)&&(mouseY>=pos_y+size_y/2-size_x/2-ofset_y)&&(mouseX<=pos_x+size_x/2+size_y/2-ofset_x)&&(mouseY<=pos_y+size_y/2+size_x/2-ofset_y)){
-	// 			return true;
-	// 		}else{
-	// 			return false;
-	// 		}
-	// 	}
-	// }
-
-	boolean poscheck(){
-		if (deg==0){
-			if((mouseX>=pos_x-ofset_x)&&(mouseY>=pos_y-ofset_y)&&(mouseX<=pos_x+size_x-ofset_x)&&(mouseY<=pos_y+size_y-ofset_y)){
-					return true;
-			}else{
-					return false;
-			}
-		}else if(deg==1){
-			if((mouseX>=pos_x-size_y+ofset_y)&&(mouseY>=pos_y-ofset_x)&&(mouseX<=pos_x+ofset_y)&&(mouseY<=pos_y+size_x-ofset_x)) {
-				return true;
-			}else{
-				return false;
-			}
-		}else if(deg==2){
-			if((mouseX>=pos_x-size_x-ofset_x)&&(mouseY>=pos_y-size_y+ofset_y)&&(mouseX<=pos_x+ofset_x)&&(mouseY<=pos_y+ofset_y)){
-				return true;
-			}else{
-				return false;
-			}
-		}else if(deg==3){
-			if((mouseX>=pos_x-ofset_y)&&(mouseY>=pos_y-size_x+ofset_x)&&(mouseX<=pos_x-ofset_x+size_y)&&(mouseY<=pos_y-ofset_y+size_x)){
-				return true;
-			}else{
-				return false;
-			}
-		}else{
-			return false;
-		}
+		println(posX);
+		println(posY);
+		println(ofsetX);
+		println(ofsetY);
 	}
 
 	boolean posCheck(){
 		if (deg==0){
-			if((mouseX>=pos_x-ofset_x)&&(mouseY>=pos_y-ofset_y)&&(mouseX<=pos_x+size_x-ofset_x)&&(mouseY<=pos_y+size_y-ofset_y)){
+			if((mouseX>=posX-ofsetX)&&(mouseY>=posY-ofsetY)&&(mouseX<=posX+sizeX-ofsetX)&&(mouseY<=posY+sizeY-ofsetY)){
 					return true;
-			}else{
-					return false;
 			}
 		}else if(deg==1){
-			if((mouseX>=pos_x-size_y+ofset_y)&&(mouseY>=pos_y-ofset_x)&&(mouseX<=pos_x+ofset_y)&&(mouseY<=pos_y+size_x-ofset_x)) {
+			if((mouseX>=posX-sizeY+ofsetY)&&(mouseY>=posY-ofsetX)&&(mouseX<=posX+ofsetY)&&(mouseY<=posY+sizeX-ofsetX)) {
 				return true;
-			}else{
-				return false;
 			}
 		}else if(deg==2){
-			if((mouseX>=pos_x-size_x-ofset_x)&&(mouseY>=pos_y-size_y+ofset_y)&&(mouseX<=pos_x+ofset_x)&&(mouseY<=pos_y+ofset_y)){
+			if((mouseX>=posX-sizeX-ofsetX)&&(mouseY>=posY-sizeY+ofsetY)&&(mouseX<=posX+ofsetX)&&(mouseY<=posY+ofsetY)){
 				return true;
-			}else{
-				return false;
 			}
 		}else if(deg==3){
-			if((mouseX>=pos_x-ofset_y)&&(mouseY>=pos_y-size_x+ofset_x)&&(mouseX<=pos_x-ofset_x+size_y)&&(mouseY<=pos_y-ofset_y+size_x)){
+			if((mouseX>=posX-ofsetY)&&(mouseY>=posY-sizeX+ofsetX)&&(mouseX<=posX-ofsetX+sizeY)&&(mouseY<=posY-ofsetY+sizeX)){
 				return true;
-			}else{
-				return false;
 			}
-		}else{
-			return false;
 		}
+			return false;
 	}
 
-	int serch_point_x(int w,int h) {
+	int serchPointX(int w,int h) {
 		int f=0;
 		int d2=0;
 		for (int d=0 ; d<w ; d++) {
@@ -151,7 +94,7 @@ class Part{
 		return d2;
 	}
 
-	int serch_point_y(int w, int h) {
+	int serchPointY(int w, int h) {
 		int f=0;
 		int i2=0;
 		for (int d=0 ; d<w ; d++) {
@@ -174,13 +117,12 @@ class Part{
 	}
 
 	void copyVariable(){
-		copyPosX=pos_x;
-		copyPosY=pos_y;
-		copySizeX=size_x;
-		copySizeY=size_y;
-		copyOfX=ofset_x;
-		copyOfY=ofset_y;
+		copyPosX=posX;
+		copyPosY=posY;
+		copySizeX=sizeX;
+		copySizeY=sizeY;
+		copyOfX=ofsetX;
+		copyOfY=ofsetY;
 		copyDeg=deg;
 	}
-
 }

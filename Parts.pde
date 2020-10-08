@@ -16,10 +16,10 @@ class Parts{
 	}
 
 	int getPosX(int index){
-		return part.get(index).pos_x;
+		return part.get(index).posX;
 	}
 	int getPosY(int index){
-		return part.get(index).pos_y;
+		return part.get(index).posY;
 	}
 
 	int getSize(){
@@ -39,7 +39,7 @@ class Parts{
 	}
 
 	void move(int index,int posX,int posY){
-		part.get(index).move_parts(posX,posY);
+		part.get(index).moveParts(posX,posY);
 	}
 
 	int getDeg(int index){
@@ -47,28 +47,28 @@ class Parts{
 	}
 
 	int getSizeX(int index){
-		return part.get(index).size_x;
+		return part.get(index).sizeX;
 	}
 
 	int getSizeY(int index){
-		return part.get(index).size_y;
+		return part.get(index).sizeY;
 	}
 
 	int getOfsetX(int index){
-		return part.get(index).ofset_x;
+		return part.get(index).ofsetX;
 	}
 
 	int getOfsetY(int index){
-		return part.get(index).ofset_y;
+		return part.get(index).ofsetY;
 	}
 
 	void redraw(){
 		for(int k=part.size()-1;k>=0;k--){
-			part.get(k).redraw_parts();
+			part.get(k).redrawParts();
 		}
 	}
 	void redraw(int index){
-		part.get(index).redraw_parts();
+		part.get(index).redrawParts();
 	}
 
 	void copyVariable(int index){
