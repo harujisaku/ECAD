@@ -298,6 +298,7 @@ void wireHighlight(){
 		hLineEX=lineSX;
 		hLineEY=lineEY;
 	}else{
+		println("deg error!");
 		return;
 	}
 	line(hLineSX,hLineSY,hLineEX,hLineEY);
