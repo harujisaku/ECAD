@@ -12,7 +12,7 @@ PImage startPhoto;
 int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0,lineSX=-1,lineSY=-1,lineEX,lineEY,wireId=-1,wireGroupId=-1,wireEditId=-1,wireEditMode,windowX,windowY;
 String path="",partPath,partGloup;
 String[] fileNames,fileData;
-static int selectId=-1,ofsetX,ofsetY,setDeg;
+static int selectId=-1,ofsetX,ofsetY,setDeg,zoom=1;
 static boolean removeFlg,copyFlg,pasteFlg,saveFlg,loadFlg,changeFlg;
 IntList selectIds = new IntList();
 IntList partPosXs = new IntList();
@@ -21,14 +21,15 @@ IntList partDegs = new IntList();
 ArrayList<String> partPaths = new ArrayList<String>();
 ArrayList<String> partgroup = new ArrayList<String>();
 PartList pL;
-Parts parts = new Parts();
+PGraphics drawBuffer,drawBufferUra;
+Parts parts;
 Menu menu;
 PImage boardImg = createImage(350,400,RGB);
 PImage uraboardImg;
 RemoveFileExtension ex= new RemoveFileExtension();
 Button[] partsButton = new Button[40];
 Button[] modeButton = new Button[3];
-Wiring w = new Wiring(color(255,0,0));
+Wiring w;
 
 void setup(){
 	size(600,400);
@@ -48,6 +49,10 @@ void setup(){
 	}
 	pL.sortAll();
 	setupComponent();
+	drawBuffer= createGraphics(600,400);
+	drawBufferUra= createGraphics(600,400);
+	parts = new Parts(drawBuffer);
+	w = new Wiring(color(255,0,0),drawBuffer);
 	thread("loadParts");
 }
 
@@ -82,6 +87,9 @@ void draw(){
 			surface.setSize(600,400);
 		}
 		background(187,201,158);
+		drawBuffer.beginDraw();
+		drawBuffer.background(color(0,0,1),0);
+		drawBuffer.endDraw();
 		stroke(0);
 		pL.scrool(ofsetX,ofsetY);
 		pL.update(f);
@@ -109,6 +117,12 @@ void draw(){
 		fill(color(0,0,0,0));
 		rect(mX(),mY(),2,2);
 		fill(255);
+		image(drawBuffer,0,0);
+		pushMatrix();
+		translate(600,0);
+		scale(-1,1);
+		image(drawBuffer,-600,0);
+		popMatrix();
 	}
 }
 
@@ -492,8 +506,10 @@ static public class mouseWheel implements MouseWheelListener{
 	public void mouseWheelMoved(MouseWheelEvent e){
 		if(e.getWheelRotation()==-1){
 			ofsetY+=15;
+			zoom+=1;
 		}else if(e.getWheelRotation()==1){
 			ofsetY-=15;
+			zoom-=1;
 		}
 	}
 }
