@@ -39,7 +39,7 @@ void setup(){
 		boardImg.pixels[i] = color(187,201,158);
 	}
 	boardImg.updatePixels();
-	path = "C:\\Users\\haruj\\Documents\\ECAD\\parts\\";
+	path = "/home/haru/Documents/ECAD/parts/";
 	pL=new PartList(63,63,80,80,0,0,250,400,path);
 	try {
 		UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
@@ -111,7 +111,6 @@ void draw(){
 		fill(255);
 	}
 }
-
 
 void mousePressed(){
 	if(mode==0){
