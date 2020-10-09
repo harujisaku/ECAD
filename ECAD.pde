@@ -26,6 +26,7 @@ Parts parts;
 Menu menu;
 PImage boardImg = createImage(350,400,RGB);
 PImage uraboardImg;
+PImage drawBufferUraWindow,drawBufferWindow;
 RemoveFileExtension ex= new RemoveFileExtension();
 Button[] partsButton = new Button[40];
 Button[] modeButton = new Button[3];
@@ -50,7 +51,7 @@ void setup(){
 	pL.sortAll();
 	setupComponent();
 	drawBuffer= createGraphics(600,400);
-	drawBufferUra= createGraphics(600,400);
+	drawBufferWindow= createGraphics(600,400);
 	parts = new Parts(drawBuffer);
 	w = new Wiring(color(255,0,0),drawBuffer);
 	thread("loadParts");
@@ -88,7 +89,9 @@ void draw(){
 		}
 		background(187,201,158);
 		drawBuffer.beginDraw();
+		drawBufferUra=drawBuffer;
 		drawBuffer.background(color(0,0,1),0);
+		drawBuffer.image(boardImg,0,0);
 		drawBuffer.endDraw();
 		stroke(0);
 		pL.scrool(ofsetX,ofsetY);
@@ -96,7 +99,6 @@ void draw(){
 		kopipe();
 		rightClick();
 		buttonCheck();
-		image(boardImg,250,0);
 		moveHighlight();
 		parts.redraw();
 		if (lineSX!=-1){
@@ -117,11 +119,12 @@ void draw(){
 		fill(color(0,0,0,0));
 		rect(mX(),mY(),2,2);
 		fill(255);
-		image(drawBuffer,0,0);
+		drawBufferWindow=drawBuffer.get(0,0,300,200);
+		image(drawBufferWindow,0,0);
 		pushMatrix();
 		translate(600,0);
 		scale(-1,1);
-		image(drawBuffer,-600,0);
+		// image(drawBuffer,-600,0);
 		popMatrix();
 	}
 }
