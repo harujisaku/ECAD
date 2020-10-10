@@ -1,0 +1,5 @@
+class Drawing{
+	Drawing(){
+		
+	}
+}

@@ -1,61 +1,38 @@
 class Part{
-	int sizeX,sizeY,posX,posY,deg,ofsetX,ofsetY;
-	int copySizeX,copySizeY,copyPosX,copyPosY,copyDeg,copyOfX,copyOfY;
-	String copyPath,copyGloup;
+	int sizeX,sizeY,posX,posY,deg,ofsetX,ofsetY,redPointX,redPointY;
 	boolean isNoMove=false;
-	PImage photo;
-	Part(int _deg,String gloup,String path,int _posX,int _posY){
-		newParts(_deg,gloup,path,_posX,_posY);
+	PImage image;
+	Part(int _deg,int _posX,int _posY,int _sizeX,int _sizeY,int _ofsetX,int _ofsetY,PImage _image){
+		newParts(_deg,_posX,_posY,_sizeX,_sizeY,_ofsetX,_ofsetY,_image);
 	}
-	Part(){}
-	void newParts(int _deg,String gloup,String path,int _posX,int _posY) {
-		photo = loadImage(path);
+	void newParts(int _deg,int _posX,int _posY,int _sizeX,int _sizeY,int _ofsetX,int _ofsetY,PImage _image) {
 		posX=_posX;
 		posY=_posY;
-		copyPath=path;
-		copyGloup=gloup;
-		sizeX=photo.width;
-		sizeY=photo.height;
-		ofsetX=serchPointX(photo.width,photo.height);
-		ofsetY=serchPointY(photo.width,photo.height);
+		sizeX=_sizeX;
+		sizeY=_sizeY;
+		ofsetX=_ofsetX;
+		ofsetY=_ofsetY;
+		image= _ image;
 		if(_deg!=-1){
 			deg=_deg;
 		}
 	}
 
 	void moveParts(int _posX,int _posY){
+		isNoMove=false;
 		if(posX==_posX&&posY==_posY){
 			isNoMove=true;
-		}else{
-			isNoMove=false;
 		}
 		posX=_posX;
 		posY=_posY;
 	}
 
-	boolean moveCheck(int psX,int psY){
-		if(posX==psX&&posY==psY){
+	boolean moveCheck(int _posX,int _posY){
+		isNoMove=false;
+		if(posX==_posX&&posY==_posY){
 			isNoMove=true;
-		}else{
-			isNoMove=false;
 		}
 		return isNoMove;
-	}
-
-	void redrawParts() {
-		pushMatrix();
-		translate(posX,posY);
-		rotate(radians(deg*90));
-		image(photo,0-ofsetX,0-ofsetY);
-		popMatrix();
-	}
-
-	void printVariable() {
-		println(deg);
-		println(posX);
-		println(posY);
-		println(ofsetX);
-		println(ofsetY);
 	}
 
 	boolean posCheck(){
@@ -76,53 +53,12 @@ class Part{
 				return true;
 			}
 		}
-			return false;
-	}
-
-	int serchPointX(int w,int h) {
-		int f=0;
-		int d2=0;
-		for (int d=0 ; d<w ; d++) {
-			for (int i=0 ; i<h ; i++){;
-				color c = photo.get(d,i);
-				if ((red(c)>240)&&(green(c)<=20)&&(blue(c)<=20)) {
-					f++;
-					if (f==1) {
-						d2=d;
-						return d;
-		}}}}
-		return d2;
-	}
-
-	int serchPointY(int w, int h) {
-		int f=0;
-		int i2=0;
-		for (int d=0 ; d<w ; d++) {
-			for (int i=0 ; i<h ; i++){
-				color c = photo.get(d,i);
-				if ((red(c)>240)&&(green(c)<=20)&&(blue(c)<=20)) {
-					f++;
-					if (f==1) {
-						i2=i;
-						return i;
-		}}}}
-		return i2;
+		return false;
 	}
 
 	void turn(int adeg){
-		if(adeg==-1){
-		}else{
+		if(adeg!=-1){
 			deg=adeg;
 		}
-	}
-
-	void copyVariable(){
-		copyPosX=posX;
-		copyPosY=posY;
-		copySizeX=sizeX;
-		copySizeY=sizeY;
-		copyOfX=ofsetX;
-		copyOfY=ofsetY;
-		copyDeg=deg;
 	}
 }
