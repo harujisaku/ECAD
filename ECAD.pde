@@ -7,10 +7,11 @@ import javax.swing.*;
 import processing.awt.*;
 import java.awt.*;
 import java.awt.event.*;
+import  java.lang.System;
 
 PImage startPhoto;
 int partId=-1,count=0,f=0,mouseOfX,mouseOfY,gridS=10,partPosX,partPosY,partDeg,mode=0,lineSX=-1,lineSY=-1,lineEX,lineEY,wireId=-1,wireGroupId=-1,wireEditId=-1,wireEditMode,windowX,windowY;
-String path="",partPath,partGloup;
+String path="",partPath,partGloup,pathSlash="/";
 String[] fileNames,fileData;
 static int selectId=-1,ofsetX,ofsetY,setDeg;
 static boolean removeFlg,copyFlg,pasteFlg,saveFlg,loadFlg,changeFlg;
@@ -39,7 +40,11 @@ void setup(){
 		boardImg.pixels[i] = color(187,201,158);
 	}
 	boardImg.updatePixels();
-	path = "/home/haru/Documents/ECAD/parts/";
+	path = sketchPath()+"/parts/";
+	if(System.getProperty("os.name").contains("dos")) {
+		path = sketchPath()+"\\parts\\";
+		pathSlash="\\";
+	}
 	pL=new PartList(63,63,80,80,0,0,250,400,path);
 	try {
 		UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
@@ -370,7 +375,7 @@ void makeParts(){
 	String boardName=board.getName();
 	if(boardPath.equals(path+"Board")){
 		boardImg = loadImage(pL.getPath(f));
-		uraboardImg =  loadImage(boardPath+"\\"+ex.removeFileExtension(boardName)+"_.bmp");
+		uraboardImg =  loadImage(boardPath+pathSlash+ex.removeFileExtension(boardName)+"_.bmp");
 	}else{
 		parts.newPart(0,"dd",pL.getPath(f),mX(),mY());
 		partId=parts.getSize()-1;
