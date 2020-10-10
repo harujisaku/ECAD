@@ -25,4 +25,4 @@ hs_err_pid*
 /.vscode/
 /parts/*
 !parts/Test/
-/application*/*
+/application*/
