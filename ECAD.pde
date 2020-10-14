@@ -1,31 +1,32 @@
 Button b;
 Window w;
-PFont fonta;
+PImage a;
 void setup(){
 	size(200,200);
-	fonta=createFont("KozGoPr6N-Medium",14.0);
+	noSmooth();
+	a=loadImage("start.png");
 	Font.defaultFont=loadFont("mplus-1p-regular-14.vlw");
-	b= new Button("test",50,50,100,20);
+	b= new Button("test",0,0,200,200);
 	w= new Window("a",0,0);
 }
 
 void draw(){
 	if (frameCount%30==0){
-		background(255);
-		b.toggleActivity();
+		background(125);
+		b.toggleButtonActivity();
 		b.redraw();
 	}
 }
 
 void mousePressed(){
-	b.setButtonTextFont(fonta);
-	background(255);
+	background(125);
+	b.setButtonImage(a);
 	b.redraw();
 }
 
 void mouseReleased(){
-	b.resetButtonTextFont();
-	background(255);
+	b.resetButtonImage();
+	background(125);
 	b.redraw();
 }
 

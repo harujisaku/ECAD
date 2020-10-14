@@ -25,33 +25,33 @@ class Button{
 		activityFlg=_activityFlg;
 	}
 
-	void setText(String _text){
+	void setButtonText(String _text){
 		text=_text;
 	}
 
-	void setPos(int _posX,int _posY){
+	void setButtonPos(int _posX,int _posY){
 		posX=_posX;
 		posY=_posY;
 	}
 
-	void setSize(int _sizeX,int _sizeY){
+	void setButtonSize(int _sizeX,int _sizeY){
 		sizeX=_sizeX;
 		sizeY=_sizeY;
 	}
 
-	void setDraw(boolean _drawFlg){
+	void setButtonDraw(boolean _drawFlg){
 		drawFlg=_drawFlg;
 	}
 
-	void setActivity(boolean _activityFlg){
+	void setButtonActivity(boolean _activityFlg){
 		activityFlg=_activityFlg;
 	}
 
-	void toggleDraw(){
+	void toggleButtonDraw(){
 		drawFlg=!drawFlg;
 	}
 
-	void toggleActivity(){
+	void toggleButtonActivity(){
 		activityFlg=!activityFlg;
 	}
 
@@ -61,21 +61,26 @@ class Button{
 		}
 		pushMatrix();
 		fill(buttonBaseColor);
-		stroke(activityFlg?buttonAccentColor:buttonGrayColor);
-		strokeWeight(2);
-		textAlign(CENTER,CENTER);
+		noStroke();
 		rect(posX,posY,sizeX,sizeY);
+		stroke(activityFlg?buttonAccentColor:buttonGrayColor);
+		strokeWeight(1);
+		textAlign(CENTER,CENTER);
+		rect(posX+1,posY+1,sizeX-3,sizeY-3);
 		fill(activityFlg?buttonTextColor:buttonGrayColor);
 		if(font !=null){
 			textFont(font);
+		}
+		if(image!=null){
+			image(image,posX,posY);
 		}
 		textSize(textSize);
 		text(text,posX+sizeX/2,posY+sizeY/2);
 		popMatrix();
 	}
 
-	int setImage(PImage _image){
-		image=_image;
+	int setButtonImage(PImage _image){
+		image=_image.get(0,0,sizeX,sizeY);
 		return 0;
 	}
 
@@ -108,5 +113,9 @@ class Button{
 
 	void resetButtonTextFont(){
 		font=Font.defaultFont;
+	}
+
+	void resetButtonImage(){
+		image=null;
 	}
 }

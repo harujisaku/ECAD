@@ -16,32 +16,33 @@ public class ECAD extends PApplet {
 
 Button b;
 Window w;
-PFont fonta;
+PImage a;
 public void setup(){
 	
-	fonta=createFont("KozGoPr6N-Medium",14.0f);
-	Font.defaultFont=loadFont("mplus-1p-regular-32.vlw");
-	b= new Button("test",50,50,100,20);
+	
+	a=loadImage("start.png");
+	Font.defaultFont=loadFont("mplus-1p-regular-14.vlw");
+	b= new Button("test",0,0,200,200);
 	w= new Window("a",0,0);
 }
 
 public void draw(){
 	if (frameCount%30==0){
-		background(255);
-		b.toggleActivity();
+		background(125);
+		b.toggleButtonActivity();
 		b.redraw();
 	}
 }
 
 public void mousePressed(){
-	b.setButtonTextFont(fonta);
-	background(255);
+	background(125);
+	b.setButtonImage(a);
 	b.redraw();
 }
 
 public void mouseReleased(){
-	b.resetButtonTextFont();
-	background(255);
+	b.resetButtonImage();
+	background(125);
 	b.redraw();
 }
 
@@ -54,7 +55,7 @@ public void keyReleased(){
 }
 class Button{
 	private String text;
-	private int posX,posY,sizeX,sizeY,textSize;
+	private int posX,posY,sizeX,sizeY,textSize=13;
 	private boolean drawFlg=true,activityFlg=true;
 	private PImage image;
 	private int buttonAccentColor=color(51,153,255);
@@ -79,33 +80,33 @@ class Button{
 		activityFlg=_activityFlg;
 	}
 
-	public void setText(String _text){
+	public void setButtonText(String _text){
 		text=_text;
 	}
 
-	public void setPos(int _posX,int _posY){
+	public void setButtonPos(int _posX,int _posY){
 		posX=_posX;
 		posY=_posY;
 	}
 
-	public void setSize(int _sizeX,int _sizeY){
+	public void setButtonSize(int _sizeX,int _sizeY){
 		sizeX=_sizeX;
 		sizeY=_sizeY;
 	}
 
-	public void setDraw(boolean _drawFlg){
+	public void setButtonDraw(boolean _drawFlg){
 		drawFlg=_drawFlg;
 	}
 
-	public void setActivity(boolean _activityFlg){
+	public void setButtonActivity(boolean _activityFlg){
 		activityFlg=_activityFlg;
 	}
 
-	public void toggleDraw(){
+	public void toggleButtonDraw(){
 		drawFlg=!drawFlg;
 	}
 
-	public void toggleActivity(){
+	public void toggleButtonActivity(){
 		activityFlg=!activityFlg;
 	}
 
@@ -115,20 +116,26 @@ class Button{
 		}
 		pushMatrix();
 		fill(buttonBaseColor);
-		stroke(activityFlg?buttonAccentColor:buttonGrayColor);
-		strokeWeight(2);
-		textAlign(CENTER,CENTER);
+		noStroke();
 		rect(posX,posY,sizeX,sizeY);
+		stroke(activityFlg?buttonAccentColor:buttonGrayColor);
+		strokeWeight(1);
+		textAlign(CENTER,CENTER);
+		rect(posX+1,posY+1,sizeX-3,sizeY-3);
 		fill(activityFlg?buttonTextColor:buttonGrayColor);
 		if(font !=null){
 			textFont(font);
 		}
+		if(image!=null){
+			image(image,posX,posY);
+		}
+		textSize(textSize);
 		text(text,posX+sizeX/2,posY+sizeY/2);
 		popMatrix();
 	}
 
-	public int setImage(PImage _image){
-		image=_image;
+	public int setButtonImage(PImage _image){
+		image=_image.get(0,0,sizeX,sizeY);
 		return 0;
 	}
 
@@ -161,6 +168,10 @@ class Button{
 
 	public void resetButtonTextFont(){
 		font=Font.defaultFont;
+	}
+
+	public void resetButtonImage(){
+		image=null;
 	}
 }
 
@@ -329,7 +340,7 @@ class Wiring{
 	}
 }
 
-  public void settings() { 	size(200,200); }
+  public void settings() { 	size(200,200); 	noSmooth(); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "ECAD" };
     if (passedArgs != null) {
