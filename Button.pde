@@ -64,9 +64,9 @@ class Button{
 		noStroke();
 		rect(posX,posY,sizeX,sizeY);
 		stroke(activityFlg?buttonAccentColor:buttonGrayColor);
-		strokeWeight(1);
+		strokeWeight(2);
 		textAlign(CENTER,CENTER);
-		rect(posX+1,posY+1,sizeX-3,sizeY-3);
+		rect(posX+2,posY+2,sizeX-4,sizeY-4);
 		fill(activityFlg?buttonTextColor:buttonGrayColor);
 		if(font !=null){
 			textFont(font);
@@ -79,9 +79,8 @@ class Button{
 		popMatrix();
 	}
 
-	int setButtonImage(PImage _image){
+	void setButtonImage(PImage _image){
 		image=_image.get(0,0,sizeX,sizeY);
-		return 0;
 	}
 
 	void setButtonAccentColor(color _buttonAccentColor){
@@ -104,7 +103,7 @@ class Button{
 		textSize=_textSize;
 	}
 
-	void setColorDefault(){
+	void resetColor(){
 		buttonAccentColor=color(51,153,255);
 		buttonBaseColor=color(255,255,255);
 		buttonTextColor=color(0,0,0);

@@ -119,9 +119,9 @@ class Button{
 		noStroke();
 		rect(posX,posY,sizeX,sizeY);
 		stroke(activityFlg?buttonAccentColor:buttonGrayColor);
-		strokeWeight(1);
+		strokeWeight(2);
 		textAlign(CENTER,CENTER);
-		rect(posX+1,posY+1,sizeX-3,sizeY-3);
+		rect(posX+2,posY+2,sizeX-4,sizeY-4);
 		fill(activityFlg?buttonTextColor:buttonGrayColor);
 		if(font !=null){
 			textFont(font);
@@ -134,9 +134,8 @@ class Button{
 		popMatrix();
 	}
 
-	public int setButtonImage(PImage _image){
+	public void setButtonImage(PImage _image){
 		image=_image.get(0,0,sizeX,sizeY);
-		return 0;
 	}
 
 	public void setButtonAccentColor(int _buttonAccentColor){
@@ -159,7 +158,7 @@ class Button{
 		textSize=_textSize;
 	}
 
-	public void setColorDefault(){
+	public void resetColor(){
 		buttonAccentColor=color(51,153,255);
 		buttonBaseColor=color(255,255,255);
 		buttonTextColor=color(0,0,0);
@@ -176,8 +175,8 @@ class Button{
 }
 
 class ButtonGroup{
-	int defaultPosX,defaultPosY,defaultSizeX,defaultSizeY;
-	ArrayList<Button> button = new ArrayList<Button>();
+	private int defaultPosX=0,defaultPosY=0,defaultSizeX=64,defaultSizeY=24;
+	private ArrayList<Button> button = new ArrayList<Button>();
 	ButtonGroup(int _defaultPosX,int _defaultPosY,int _defaultSizeX,int _defaultSizeY){
 		defaultPosX=_defaultPosX;
 		defaultPosY=_defaultPosY;
@@ -199,6 +198,226 @@ class ButtonGroup{
 	public int  addButton(String _text,int _posX,int _posY){
 		button.add(new Button(_text,_posX,_posY,defaultSizeX,defaultSizeY));
 	return button.size()-1;
+	}
+
+	public void addButton(String[] _text,int[] _posX,int[] _posY,int[] _sizeX,int[] _sizeY){
+		if(_text.length!=_posX.length||_text.length!=_posY.length||_text.length!=_sizeX.length||_text.length!=_sizeY.length){
+			return;
+		}
+		for(int i = 0,len=_text.length;i<len;i++){
+			button.add(new Button(_text[i],_posX[i],_posY[i],_sizeX[i],_sizeY[i]));
+		}
+	}
+
+	public void removeButton(int _removeId){
+		button.remove(_removeId);
+	}
+
+	public void redraw(int _id){
+		button.get(_id).redraw();
+	}
+
+	public void redraw(){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).redraw();
+		}
+	}
+
+	public void setButtonText(int _id,String _text){
+		button.get(_id).setButtonText(_text);
+	}
+
+	public void setButtonText(String _text){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonText(_text);
+		}
+	}
+
+	public void setButtonText(String[] _text){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonText(_text[i]);
+		}
+	}
+
+	public void setButtonImage(PImage[] _image){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonImage(_image[i]);
+		}
+	}
+
+	public void setButtonImage(int _id,PImage _image){
+			button.get(_id).setButtonImage(_image);
+	}
+
+	public void setButtonImage(PImage _image){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonImage(_image);
+		}
+	}
+
+	public void setButtonAccentColor(int _buttonAccentColor){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonAccentColor(_buttonAccentColor);
+		}
+	}
+
+	public void setButtonAccentColor(int _id,int _buttonAccentColor){
+		button.get(_id).setButtonAccentColor(_buttonAccentColor);
+	}
+
+	public void setButtonBaseColor(int _id,int _buttonBaseColor){
+		button.get(_id).setButtonBaseColor(_buttonBaseColor);
+	}
+
+	public void setButtonBaseColor(int _buttonBaseColor){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonBaseColor(_buttonBaseColor);
+		}
+	}
+
+	public void setButtonBaseColor(int[] _buttonBaseColor){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonBaseColor(_buttonBaseColor[i]);
+		}
+	}
+
+	public void setButtonTextColor(int _id,int _buttonTextColor){
+		button.get(_id).setButtonTextColor(_buttonTextColor);
+	}
+
+	public void setButtonTextColor(int _buttonTextColor){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonTextColor(_buttonTextColor);
+		}
+	}
+
+	public void setButtonTextColor(int[] _buttonTextColor){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonTextColor(_buttonTextColor[i]);
+		}
+	}
+
+	public void setDefaultPos(int _setPosX,int _setPosY){
+		defaultPosX=_setPosX<0?defaultPosX:_setPosX;
+		defaultPosY=_setPosY<0?defaultPosY:_setPosY;
+	}
+
+	public void setDefaultSize(int _setSizeX,int _setSizeY){
+		defaultSizeX=_setSizeX<0?defaultSizeX:_setSizeX;
+		defaultSizeY=_setSizeY<0?defaultSizeY:_setSizeY;
+	}
+
+	public void setButtonPos(int _id,int _setPosX,int _setPosY){
+		button.get(_id).setButtonPos(_setPosX,_setPosY);
+	}
+
+	public void setButtonPos(int _setPosX,int _setPosY){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonPos(_setPosX,_setPosY);
+		}
+	}
+
+	public void setButtonPos(int[] _setPosX,int[] _setPosY){
+		if (_setPosX.length!=_setPosY.length||_setPosX.length+_setPosY.length!=button.size()*2){
+			return;
+		}
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonPos(_setPosX[i],_setPosY[i]);
+		}
+	}
+
+	public void setButtonSize(int _setSizeX,int _setSizeY){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonSize(_setSizeX,_setSizeY);
+		}
+	}
+	public void setButtonSize(int[] _setSizeX,int[] _setSizeY){
+		if (_setSizeX.length!=_setSizeY.length||_setSizeX.length+_setSizeY.length!=button.size()*2){
+			return;
+		}
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonSize(_setSizeX[i],_setSizeY[i]);
+		}
+	}
+
+	public void setButtonTextFont(int _id,PFont _font){
+		button.get(_id).setButtonTextFont(_font);
+	}
+
+	public void setButtonTextFont(PFont _font){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonTextFont(_font);
+		}
+	}
+
+	public void setButtonDraw(int _id,boolean _drawFlg){
+		button.get(_id).setButtonDraw(_drawFlg);
+	}
+
+	public void setButtonActivity(int _id,boolean _activityFlg){
+		button.get(_id).setButtonActivity(_activityFlg);
+	}
+
+	public void toggleButtonDraw(int _id){
+		button.get(_id).toggleButtonDraw();
+	}
+
+	public void toggleButtonActivity(int _id){
+		button.get(_id).toggleButtonActivity();
+	}
+
+	public void setButtonDraw(boolean _drawFlg){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonDraw(_drawFlg);
+		}
+	}
+
+	public void setButtonActivity(boolean _activityFlg){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).setButtonActivity(_activityFlg);
+		}
+	}
+
+	public void toggleButtonDraw(){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).toggleButtonDraw();
+		}
+	}
+
+	public void toggleButtonActivity(){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).toggleButtonActivity();
+		}
+	}
+
+	public void resetButtonImage(){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).resetButtonImage();
+		}
+	}
+
+	public void resetButtonImage(int _id){
+		button.get(_id).resetButtonImage();
+	}
+
+	public void resetButtonTextFont(){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).resetButtonTextFont();
+		}
+	}
+
+	public void resetButtonTextFont(int _id){
+		button.get(_id).resetButtonTextFont();
+	}
+
+	public void resetColor(int _id){
+		button.get(_id).resetColor();
+	}
+
+	public void resetColor(){
+		for(int i = 0,len=button.size();i<len;i++){
+			button.get(i).resetColor();
+		}
 	}
 }
 
