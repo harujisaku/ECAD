@@ -4,7 +4,7 @@ PFont fonta;
 void setup(){
 	size(200,200);
 	fonta=createFont("KozGoPr6N-Medium",14.0);
-	Font.defaultFont=loadFont("mplus-1p-regular-32.vlw");
+	Font.defaultFont=loadFont("mplus-1p-regular-14.vlw");
 	b= new Button("test",50,50,100,20);
 	w= new Window("a",0,0);
 }

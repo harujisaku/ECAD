@@ -1,6 +1,6 @@
 class Button{
 	private String text;
-	private int posX,posY,sizeX,sizeY,textSize;
+	private int posX,posY,sizeX,sizeY,textSize=13;
 	private boolean drawFlg=true,activityFlg=true;
 	private PImage image;
 	private color buttonAccentColor=color(51,153,255);
@@ -69,6 +69,7 @@ class Button{
 		if(font !=null){
 			textFont(font);
 		}
+		textSize(textSize);
 		text(text,posX+sizeX/2,posY+sizeY/2);
 		popMatrix();
 	}
