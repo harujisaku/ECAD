@@ -7,7 +7,7 @@ class Button{
 	private color buttonBaseColor=color(255,255,255);
 	private color buttonTextColor=color(0,0,0);
 	private color buttonGrayColor=color(125);
-	private PFont font;
+	private PFont font=Font.defaultFont;
 	Button(String _text,int _posX,int _posY,int _sizeX,int _sizeY){
 		posX=_posX;
 		posY=_posY;
@@ -106,7 +106,6 @@ class Button{
 	}
 
 	void resetButtonTextFont(){
-		font=null;
-		// textFont();
+		font=Font.defaultFont;
 	}
 }

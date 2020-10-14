@@ -15,27 +15,34 @@ import java.io.IOException;
 public class ECAD extends PApplet {
 
 Button b;
+Window w;
 PFont fonta;
 public void setup(){
 	
-b= new Button("test",50,50,100,20);
-fonta=loadFont("mplus-1p-regular-32.vlw");
-printArray(PFont.list());
+	fonta=createFont("KozGoPr6N-Medium",14.0f);
+	Font.defaultFont=loadFont("mplus-1p-regular-32.vlw");
+	b= new Button("test",50,50,100,20);
+	w= new Window("a",0,0);
 }
 
 public void draw(){
-	background(255);
-	b.toggleDraw();
-	b.redraw();
-	delay(500);
+	if (frameCount%30==0){
+		background(255);
+		b.toggleActivity();
+		b.redraw();
+	}
 }
 
 public void mousePressed(){
-b.setButtonTextFont(fonta);
+	b.setButtonTextFont(fonta);
+	background(255);
+	b.redraw();
 }
 
 public void mouseReleased(){
-b.resetButtonTextFont();
+	b.resetButtonTextFont();
+	background(255);
+	b.redraw();
 }
 
 public void keyPressed(){
@@ -54,7 +61,7 @@ class Button{
 	private int buttonBaseColor=color(255,255,255);
 	private int buttonTextColor=color(0,0,0);
 	private int buttonGrayColor=color(125);
-	private PFont font;
+	private PFont font=Font.defaultFont;
 	Button(String _text,int _posX,int _posY,int _sizeX,int _sizeY){
 		posX=_posX;
 		posY=_posY;
@@ -153,12 +160,36 @@ class Button{
 	}
 
 	public void resetButtonTextFont(){
-		font=null;
-		// textFont();
+		font=Font.defaultFont;
 	}
 }
 
+class ButtonGroup{
+	int defaultPosX,defaultPosY,defaultSizeX,defaultSizeY;
+	ArrayList<Button> button = new ArrayList<Button>();
+	ButtonGroup(int _defaultPosX,int _defaultPosY,int _defaultSizeX,int _defaultSizeY){
+		defaultPosX=_defaultPosX;
+		defaultPosY=_defaultPosY;
+		defaultSizeX=_defaultSizeX;
+		defaultSizeY=_defaultSizeY;
+	}
 
+	public int  addButton(String _text,int _posX,int _posY,int _sizeX,int _sizeY){
+		button.add(new Button(_text,_posX,_posY,_sizeX,_sizeY));
+		return button.size()-1;
+	}
+
+	public int addButton(String _text){
+		button.add(new Button(_text,defaultPosX,defaultPosY,defaultSizeX,defaultSizeY));
+		defaultPosY+=defaultSizeY;
+		return button.size()-1;
+	}
+
+	public int  addButton(String _text,int _posX,int _posY){
+		button.add(new Button(_text,_posX,_posY,defaultSizeX,defaultSizeY));
+	return button.size()-1;
+	}
+}
 
 
 class Drawing{
@@ -167,6 +198,9 @@ class Drawing{
 	}
 }
 
+static class Font{
+	static PFont defaultFont= new PFont();
+}
 
 
 
@@ -272,9 +306,11 @@ class PartImageLoad{
 
 
 class Window{
-	Window(){
-		
+	String title;
+	int sizeX,sizeY;
+	Window(String _title,int _sizeX,int _sizeY){
 	}
+
 }
 
 class WindowObject{
