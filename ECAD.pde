@@ -1,5 +1,6 @@
 Button b;
 Window w;
+Event e;
 PImage a;
 void setup(){
 	size(200,200);
@@ -8,6 +9,7 @@ void setup(){
 	Font.defaultFont=loadFont("mplus-1p-regular-14.vlw");
 	b= new Button("test",0,0,200,200);
 	w= new Window("a",0,0);
+	e= new Event();
 }
 
 void draw(){
@@ -22,6 +24,7 @@ void mousePressed(){
 	background(125);
 	b.setButtonImage(a);
 	b.redraw();
+	e.mousePressed(mouseX,mouseY);
 }
 
 void mouseReleased(){
@@ -36,4 +39,8 @@ void keyPressed(){
 
 void keyReleased(){
 
+}
+
+void mouseMoved(){
+	e.mouseMoved(mouseX,mouseY);
 }

@@ -16,6 +16,7 @@ public class ECAD extends PApplet {
 
 Button b;
 Window w;
+Event e;
 PImage a;
 public void setup(){
 	
@@ -24,6 +25,7 @@ public void setup(){
 	Font.defaultFont=loadFont("mplus-1p-regular-14.vlw");
 	b= new Button("test",0,0,200,200);
 	w= new Window("a",0,0);
+	e= new Event();
 }
 
 public void draw(){
@@ -38,6 +40,7 @@ public void mousePressed(){
 	background(125);
 	b.setButtonImage(a);
 	b.redraw();
+	e.mousePressed(mouseX,mouseY);
 }
 
 public void mouseReleased(){
@@ -52,6 +55,10 @@ public void keyPressed(){
 
 public void keyReleased(){
 
+}
+
+public void mouseMoved(){
+	e.mouseMoved(mouseX,mouseY);
 }
 class Button{
 	private String text;
@@ -431,17 +438,92 @@ class Drawing{
 		
 	}
 }
+class Event{
+	WindowEvent windowEvent;
+	MouseEvent mouseEvent;
+	KeyEvent keyEvent;
+	int windowWidth,windowHeight;
+	Event(){
+		mouseEvent=new MouseEvent();
+		windowWidth=width;
+		windowHeight=height;
+	}
 
+	public void mousePressed(int _mouseX,int _mouseY){
+		mouseEvent.mousePressed(_mouseX,_mouseY);
+	}
+
+	public void mouseReleased(){
+		mouseEvent.mouseReleased();
+	}
+
+	public void keyPressed(){
+		keyEvent.keyPressed();
+	}
+
+	public void keyReleased(){
+		keyEvent.keyReleased();
+	}
+
+	public boolean isResize(){
+		return windowWidth!=width||windowHeight!=height;
+	}
+
+	public void windowResized(){
+		windowEvent.windowResized();
+	}
+
+	public void mouseMoved(int _mouseX,int _mouseY){
+		mouseEvent.mouseMoved(_mouseX,_mouseY);
+	}
+}
 static class Font{
 	static PFont defaultFont= new PFont();
 }
 
+class KeyEvent{
+	KeyEvent(){
+
+	}
+
+	public void keyPressed(){
+
+	}
+
+	public void keyReleased(){
+		
+	}
+}
 
 
 
+class MenuItem extends Button{
+	MenuItem(String a,int g,int s,int k){
+		super("test",0,0,100,20);
+	}
 
+	public void draw(int _mouseX,int _mouseY){
+		super.setButtonPos(_mouseX,_mouseY);
+	}
+}
+class MouseEvent{
+	MenuItem m=new MenuItem("test",1,100,20);
+	MouseEvent(){
+	}
 
+	public void mousePressed(int _mouseX,int _mouseY){
+		m.draw(_mouseX,_mouseY);
+		m.redraw();
+	}
 
+	public void mouseReleased(){
+
+	}
+
+	public void mouseMoved(int _mouseX,int _mouseY){
+
+	}
+}
 class Object{
 	Object(){
 		
@@ -521,7 +603,15 @@ class Window{
 	}
 
 }
+class WindowEvent{
+	WindowEvent(){
 
+	}
+
+	public void windowResized(){
+		
+	}
+}
 class WindowObject{
 	WindowObject(){
 		
