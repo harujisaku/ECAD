@@ -37,7 +37,6 @@ class Wiring{
 
 	void update(){
 		wires.update();
-		// line(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
 	}
 
 	void remove(int _id){
@@ -54,7 +53,6 @@ class Wiring{
 		_ElineStartPosX=getLineEndPosX(_id);
 		_ElineStartPosY=getLineEndPosY(_id);
 		lineAngleFormating(20);
-		// line(lineStartPosX,lineStartPosY,lineEndPosX,lineEndPosY);
 		wires.setEndPos(_id,lineStartPosX,lineStartPosY);
 		wires.setStartPos(_id,lineEndPosX,lineEndPosY);
 	}
@@ -94,61 +92,89 @@ class Wiring{
 		wires.groupWire();
 	}
 
-	private void lineAngleFormating(int decisionRange){
-		println("deg ="+deg);
-		if (deg<=360-decisionRange&&deg>=270+decisionRange){
-			//左下
-			lineStartPosX=_ElineStartPosX;
-			lineStartPosY=_ElineStartPosY;
-			lineEndPosX=_ElineEndPosX;
-			lineEndPosY=_ElineStartPosY-_ElineEndPosX+_ElineStartPosX;
-		}else if(deg<=90-decisionRange&&deg>=decisionRange){
-			//左上
-			lineStartPosX=_ElineEndPosX;
-			lineStartPosY=_ElineStartPosY+_ElineEndPosX-_ElineStartPosX;
-			lineEndPosX=_ElineStartPosX;
-			lineEndPosY=_ElineStartPosY;
-		}else if(deg<=180-decisionRange&&deg>=90+decisionRange){
-			//右上
-			lineStartPosX=_ElineStartPosX;
-			lineStartPosY=_ElineStartPosY;
-			lineEndPosX=_ElineStartPosY-_ElineEndPosY+_ElineStartPosX;
-			lineEndPosY=_ElineEndPosY;
-		}else if(deg<=270-decisionRange&&deg>=180+decisionRange){
-			//右下
-			lineStartPosX=_ElineStartPosX;
-			lineStartPosY=_ElineStartPosY;
-			lineEndPosX=_ElineStartPosX+_ElineEndPosY-_ElineStartPosY;
-			lineEndPosY=_ElineEndPosY;
-		}else if(deg<=decisionRange||deg>=360-decisionRange){
-			//左
-			lineStartPosX=_ElineEndPosX;
-			lineEndPosY=_ElineStartPosY;
-			lineEndPosX=_ElineStartPosX;
-			lineStartPosY=_ElineStartPosY;
-		}else if(deg<=180+decisionRange&&deg>=180-decisionRange){
-			//右
-			lineStartPosX=_ElineStartPosX;
-			lineStartPosY=_ElineStartPosY;
-			lineEndPosX=_ElineEndPosX;
-			lineEndPosY=_ElineStartPosY;
-		}else if(deg<=90+decisionRange&&deg>=90-decisionRange){
-			//上
-			lineStartPosX=_ElineStartPosX;
-			lineStartPosY=_ElineEndPosY;
-			lineEndPosX=_ElineStartPosX;
-			lineEndPosY=_ElineStartPosY;
-		}else if(deg<=270+decisionRange&&deg>=270-decisionRange){
-			//下
-			lineStartPosX=_ElineStartPosX;
-			lineStartPosY=_ElineStartPosY;
-			lineEndPosX=_ElineStartPosX;
-			lineEndPosY=_ElineEndPosY;
-		}else{
+	void lineAngleFormating(int decisionRange){
+		int sX=_ElineStartPosX;
+		int eX=_ElineEndPosX;
+		int sY=_ElineStartPosY;
+		int eY=_ElineEndPosY;
+		int lX=eX-sX,lY=eY-sY;
+		int c=max(abs(lX),abs(lY));
+		int b=int(c*(Math.signum(max(lX,lY))));
+		translate(sX,sY);
+		int d=int(abs(degrees(atan2(lY,lX))));
+		translate(-sX,-sY);
+		if(d%90<decisionRange||d%90>90-decisionRange){
+			lineStartPosX=sX;
+			lineStartPosY=sY;
+			lineEndPosX=abs(sX-eX)>abs(sY-eY)?eX:sX;
+			lineEndPosY=abs(sY-eY)>abs(sX-eX)?eY:sY;
 			return;
 		}
-
+		lineStartPosX=sX;
+		lineStartPosY=sY;
+		lineEndPosX=sX+b*intnum(lX)*(lX<0&&lY<0?-1:1);
+		lineEndPosY=sY+b*intnum(lY)*(lX<0&&lY<0?-1:1);
 	}
+
+	private int intnum(int a){
+		return int(Math.signum(a));
+	}
+
+	// private void lineAngleFormating(int decisionRange){
+	// 	println("deg ="+deg);
+	// 	if (deg<=360-decisionRange&&deg>=270+decisionRange){
+	// 		//左下
+	// 		lineStartPosX=_ElineStartPosX;
+	// 		lineStartPosY=_ElineStartPosY;
+	// 		lineEndPosX=_ElineEndPosX;
+	// 		lineEndPosY=_ElineStartPosY-_ElineEndPosX+_ElineStartPosX;
+	// 	}else if(deg<=90-decisionRange&&deg>=decisionRange){
+	// 		//左上
+	// 		lineStartPosX=_ElineEndPosX;
+	// 		lineStartPosY=_ElineStartPosY+_ElineEndPosX-_ElineStartPosX;
+	// 		lineEndPosX=_ElineStartPosX;
+	// 		lineEndPosY=_ElineStartPosY;
+	// 	}else if(deg<=180-decisionRange&&deg>=90+decisionRange){
+	// 		//右上
+	// 		lineStartPosX=_ElineStartPosX;
+	// 		lineStartPosY=_ElineStartPosY;
+	// 		lineEndPosX=_ElineStartPosY-_ElineEndPosY+_ElineStartPosX;
+	// 		lineEndPosY=_ElineEndPosY;
+	// 	}else if(deg<=270-decisionRange&&deg>=180+decisionRange){
+	// 		//右下
+	// 		lineStartPosX=_ElineStartPosX;
+	// 		lineStartPosY=_ElineStartPosY;
+	// 		lineEndPosX=_ElineStartPosX+_ElineEndPosY-_ElineStartPosY;
+	// 		lineEndPosY=_ElineEndPosY;
+	// 	}else if(deg<=decisionRange||deg>=360-decisionRange){
+	// 		//左
+	// 		lineStartPosX=_ElineEndPosX;
+	// 		lineEndPosY=_ElineStartPosY;
+	// 		lineEndPosX=_ElineStartPosX;
+	// 		lineStartPosY=_ElineStartPosY;
+	// 	}else if(deg<=180+decisionRange&&deg>=180-decisionRange){
+	// 		//右
+	// 		lineStartPosX=_ElineStartPosX;
+	// 		lineStartPosY=_ElineStartPosY;
+	// 		lineEndPosX=_ElineEndPosX;
+	// 		lineEndPosY=_ElineStartPosY;
+	// 	}else if(deg<=90+decisionRange&&deg>=90-decisionRange){
+	// 		//上
+	// 		lineStartPosX=_ElineStartPosX;
+	// 		lineStartPosY=_ElineEndPosY;
+	// 		lineEndPosX=_ElineStartPosX;
+	// 		lineEndPosY=_ElineStartPosY;
+	// 	}else if(deg<=270+decisionRange&&deg>=270-decisionRange){
+	// 		//下
+	// 		lineStartPosX=_ElineStartPosX;
+	// 		lineStartPosY=_ElineStartPosY;
+	// 		lineEndPosX=_ElineStartPosX;
+	// 		lineEndPosY=_ElineEndPosY;
+	// 	}else{
+	// 		return;
+	// 	}
+	//
+	// }
 
 	int getLineStartPosX(int _id){
 		return wires.getLineStartPosX(_id);
