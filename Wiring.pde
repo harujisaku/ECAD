@@ -120,62 +120,6 @@ class Wiring{
 		return int(Math.signum(a));
 	}
 
-	// private void lineAngleFormating(int decisionRange){
-	// 	println("deg ="+deg);
-	// 	if (deg<=360-decisionRange&&deg>=270+decisionRange){
-	// 		//左下
-	// 		lineStartPosX=_ElineStartPosX;
-	// 		lineStartPosY=_ElineStartPosY;
-	// 		lineEndPosX=_ElineEndPosX;
-	// 		lineEndPosY=_ElineStartPosY-_ElineEndPosX+_ElineStartPosX;
-	// 	}else if(deg<=90-decisionRange&&deg>=decisionRange){
-	// 		//左上
-	// 		lineStartPosX=_ElineEndPosX;
-	// 		lineStartPosY=_ElineStartPosY+_ElineEndPosX-_ElineStartPosX;
-	// 		lineEndPosX=_ElineStartPosX;
-	// 		lineEndPosY=_ElineStartPosY;
-	// 	}else if(deg<=180-decisionRange&&deg>=90+decisionRange){
-	// 		//右上
-	// 		lineStartPosX=_ElineStartPosX;
-	// 		lineStartPosY=_ElineStartPosY;
-	// 		lineEndPosX=_ElineStartPosY-_ElineEndPosY+_ElineStartPosX;
-	// 		lineEndPosY=_ElineEndPosY;
-	// 	}else if(deg<=270-decisionRange&&deg>=180+decisionRange){
-	// 		//右下
-	// 		lineStartPosX=_ElineStartPosX;
-	// 		lineStartPosY=_ElineStartPosY;
-	// 		lineEndPosX=_ElineStartPosX+_ElineEndPosY-_ElineStartPosY;
-	// 		lineEndPosY=_ElineEndPosY;
-	// 	}else if(deg<=decisionRange||deg>=360-decisionRange){
-	// 		//左
-	// 		lineStartPosX=_ElineEndPosX;
-	// 		lineEndPosY=_ElineStartPosY;
-	// 		lineEndPosX=_ElineStartPosX;
-	// 		lineStartPosY=_ElineStartPosY;
-	// 	}else if(deg<=180+decisionRange&&deg>=180-decisionRange){
-	// 		//右
-	// 		lineStartPosX=_ElineStartPosX;
-	// 		lineStartPosY=_ElineStartPosY;
-	// 		lineEndPosX=_ElineEndPosX;
-	// 		lineEndPosY=_ElineStartPosY;
-	// 	}else if(deg<=90+decisionRange&&deg>=90-decisionRange){
-	// 		//上
-	// 		lineStartPosX=_ElineStartPosX;
-	// 		lineStartPosY=_ElineEndPosY;
-	// 		lineEndPosX=_ElineStartPosX;
-	// 		lineEndPosY=_ElineStartPosY;
-	// 	}else if(deg<=270+decisionRange&&deg>=270-decisionRange){
-	// 		//下
-	// 		lineStartPosX=_ElineStartPosX;
-	// 		lineStartPosY=_ElineStartPosY;
-	// 		lineEndPosX=_ElineStartPosX;
-	// 		lineEndPosY=_ElineEndPosY;
-	// 	}else{
-	// 		return;
-	// 	}
-	//
-	// }
-
 	int getLineStartPosX(int _id){
 		return wires.getLineStartPosX(_id);
 	}

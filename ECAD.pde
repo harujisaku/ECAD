@@ -254,61 +254,6 @@ void keyPressed(){
 	}
 }
 
-// void wireHighlight(){
-// 	lineEX=mX();
-// 	lineEY=mY();
-// 	translate(lineSX,lineSY);
-// 	float degFloat = degrees(atan2(lineEY-lineSY,lineEX-lineSX))+180;
-// 	translate(-lineSX,-lineSY);
-// 	int deg=int(degFloat);
-// 	int hLineEX,hLineEY,hLineSX,hLineSY,decisionRange=20;
-// 	if (deg<=360-decisionRange&&deg>=270+decisionRange){
-// 		hLineSX=lineSX;
-// 		hLineSY=lineSY;
-// 		hLineEX=lineEX;
-// 		hLineEY=lineSY-lineEX+lineSX;
-// 	}else if(deg<=90-decisionRange&&deg>=decisionRange){
-// 		hLineSX=lineEX;
-// 		hLineSY=lineSY+lineEX-lineSX;
-// 		hLineEX=lineSX;
-// 		hLineEY=lineSY;
-// 	}else if(deg<=180-decisionRange&&deg>=90+decisionRange){
-// 		hLineSX=lineSX;
-// 		hLineSY=lineSY;
-// 		hLineEX=lineSY-lineEY+lineSX;
-// 		hLineEY=lineEY;
-// 	}else if(deg<=270-decisionRange&&deg>=180+decisionRange){
-// 		hLineSX=lineSX;
-// 		hLineSY=lineSY;
-// 		hLineEX=lineSX+lineEY-lineSY;
-// 		hLineEY=lineEY;
-// 	}else if(deg<=decisionRange||deg>=360-decisionRange){
-// 		hLineSX=lineEX;
-// 		hLineEY=lineSY;
-// 		hLineEX=lineSX;
-// 		hLineSY=lineSY;
-// 	}else if(deg<=180+decisionRange&&deg>=180-decisionRange){
-// 		hLineSX=lineSX;
-// 		hLineSY=lineSY;
-// 		hLineEX=lineEX;
-// 		hLineEY=lineSY;
-// 	}else if(deg<=90+decisionRange&&deg>=90-decisionRange){
-// 		hLineSX=lineSX;
-// 		hLineSY=lineEY;
-// 		hLineEX=lineSX;
-// 		hLineEY=lineSY;
-// 	}else if(deg<=270+decisionRange&&deg>=270-decisionRange){
-// 		hLineSX=lineSX;
-// 		hLineSY=lineSY;
-// 		hLineEX=lineSX;
-// 		hLineEY=lineEY;
-// 	}else{
-// 		println("deg error!");
-// 		return;
-// 	}
-// 	line(hLineSX,hLineSY,hLineEX,hLineEY);
-// }
-
 void wireHighlight(){
 	int sX=lineSX;
 	int sY=lineSY;
