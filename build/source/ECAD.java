@@ -1,42 +1,42 @@
-import processing.core.*; 
-import processing.data.*; 
-import processing.event.*; 
-import processing.opengl.*; 
+import processing.core.*;
+import processing.data.*;
+import processing.event.*;
+import processing.opengl.*;
 
-import java.awt.event.MouseListener; 
-import java.awt.event.MouseEvent; 
-import java.awt.event.MouseWheelEvent; 
-import java.awt.event.MouseWheelListener; 
-import java.awt.Component; 
-import javax.swing.*; 
-import processing.awt.*; 
-import java.awt.*; 
-import java.awt.event.*; 
-import java.lang.System; 
-import java.awt.event.ActionEvent; 
-import java.awt.event.ActionListener; 
-import java.awt.event.KeyEvent; 
-import java.awt.event.InputEvent; 
-import java.awt.event.ItemListener; 
-import java.awt.event.ItemEvent; 
-import java.awt.event.MouseListener; 
-import java.awt.event.MouseEvent; 
-import java.awt.Component; 
-import javax.swing.JFrame; 
-import javax.swing.JMenu; 
-import javax.swing.JMenuBar; 
-import javax.swing.JMenuItem; 
-import javax.swing.KeyStroke; 
-import javax.swing.JPopupMenu; 
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.Component;
+import javax.swing.*;
+import processing.awt.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.lang.System;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import java.awt.Component;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+import javax.swing.JPopupMenu;
 
-import java.util.HashMap; 
-import java.util.ArrayList; 
-import java.io.File; 
-import java.io.BufferedReader; 
-import java.io.PrintWriter; 
-import java.io.InputStream; 
-import java.io.OutputStream; 
-import java.io.IOException; 
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.IOException;
 
 public class ECAD extends PApplet {
 
@@ -74,7 +74,7 @@ Button[] modeButton = new Button[3];
 Wiring w = new Wiring(color(255,0,0));
 
 public void setup(){
-	
+
 	startPhoto=loadImage("start.png");
 	image(startPhoto,0,0,600,400);
 	boardImg.loadPixels();
